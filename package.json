@@ -1,0 +1,10 @@
+{
+  "name": "relay-workshop",
+  "version": "1.0.0",
+  "description": "Artsy relay workshop",
+  "main": "index.js",
+  "repository": "git@github.com:artsy/relay-workshop.git",
+  "author": "xtina-starr <c.thompsonms@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
