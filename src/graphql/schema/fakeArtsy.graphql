@@ -1,0 +1,13 @@
+schema {
+  query: Root
+}
+
+type Artist {
+  id: ID!
+  name: String!
+  birthYear: Int!
+}
+
+type Root {
+  artist(id: ID): Artist
+}
