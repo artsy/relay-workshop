@@ -7,7 +7,7 @@ import {
 } from 'relay-runtime';
 
 const fetchQuery: FetchFunction = (operation, variables) => {
-  return fetch('https://swapi-graphql.netlify.app/.netlify/functions/index', {
+  return fetch('http://localhost:1234/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

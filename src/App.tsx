@@ -8,8 +8,8 @@ const App = () => (
     environment={environment}
     query={graphql`
       query AppQuery {
-        allPlanets {
-          totalCount
+        artist(id: 1) {
+          name
         }
       }
     `}
@@ -21,9 +21,7 @@ const App = () => (
       if (!props) {
         return <div>Loading</div>;
       }
-      return (
-        <div>There are {props.allPlanets.totalCount} planets in Star Wars</div>
-      );
+      return <div>Hello, {props.artist.name}</div>;
     }}
   />
 );

@@ -5,8 +5,8 @@
 import { ConcreteRequest } from "relay-runtime";
 export type AppQueryVariables = {};
 export type AppQueryResponse = {
-    readonly allPlanets: {
-        readonly totalCount: number | null;
+    readonly artist: {
+        readonly name: string;
     } | null;
 };
 export type AppQuery = {
@@ -18,8 +18,9 @@ export type AppQuery = {
 
 /*
 query AppQuery {
-  allPlanets {
-    totalCount
+  artist(id: 1) {
+    name
+    id
   }
 }
 */
@@ -27,31 +28,38 @@ query AppQuery {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "alias": null,
-    "args": null,
-    "concreteType": "PlanetsConnection",
-    "kind": "LinkedField",
-    "name": "allPlanets",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "totalCount",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Literal",
+    "name": "id",
+    "value": 1
   }
-];
+],
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "AppQuery",
-    "selections": (v0/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v0/*: any*/),
+        "concreteType": "Artist",
+        "kind": "LinkedField",
+        "name": "artist",
+        "plural": false,
+        "selections": [
+          (v1/*: any*/)
+        ],
+        "storageKey": "artist(id:1)"
+      }
+    ],
     "type": "Root",
     "abstractKey": null
   },
@@ -60,17 +68,37 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "AppQuery",
-    "selections": (v0/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v0/*: any*/),
+        "concreteType": "Artist",
+        "kind": "LinkedField",
+        "name": "artist",
+        "plural": false,
+        "selections": [
+          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          }
+        ],
+        "storageKey": "artist(id:1)"
+      }
+    ]
   },
   "params": {
-    "cacheID": "f5efec9429dbfd58e5f0ef7e9092e09e",
+    "cacheID": "45562cdf47de90d5d8ef8c085b3f81ae",
     "id": null,
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery {\n  allPlanets {\n    totalCount\n  }\n}\n"
+    "text": "query AppQuery {\n  artist(id: 1) {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'a738bb6bf44a4b57489f6fea3b6cc1c4';
+(node as any).hash = '3aeea66463890a4b567dcadbb550effb';
 export default node;
