@@ -14,7 +14,7 @@
     "relay": "^0.8.0-1"
   },
   "scripts": {
-    "relay": "relay-compiler --src ./src --schema schema.graphql --extensions ts tsx --language typescript",
+    "relay": "relay-compiler --src ./src --schema src/graphql/schema/fakeArtsy.graphql  --extensions ts tsx --language typescript",
     "start": "parcel src/index.html",
     "type-check": "tsc --noEmit"
   },
