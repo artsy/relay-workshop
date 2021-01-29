@@ -32,7 +32,7 @@ View the app for this exercise in a browser:
 
 This app renders information about an artist. 
 
-![The app for this exercise, running in a browser](./exercise0.png)
+![The app for this exercise, running in a browser](./docs/exercise0.png)
 
 The component rendering the artist information is [the Artist0 component](./Artist0.tsx). It emits the artist name (TODO: line number): 
 
@@ -101,7 +101,7 @@ Your browser should auto-refresh. You should see.....
 
 A place for the birth year to display, but no actual birth year. 
 
-![No birth year showing yet](no-birth-year.png)
+![No birth year showing yet](./docs/no-birth-year.png)
 
 ### 🤔 Why doesn't this work? 
 
@@ -115,9 +115,9 @@ Let's fix this!
 
 This shouldn't take long to run, and the output shouldn't contain any errors. When it's finished your page should reload with the artist's birth year now showing!
 
-![The birth year is showing!](./with-birth-year.png)
+![The birth year is showing!](./docs/with-birth-year.png)
 
-🎉 We did it.
+🎉 We did it!
 
 ### What did the Relay compiler do?
 
@@ -155,7 +155,7 @@ We're using TypeScript in this tutorial, and we've configured our compiler to ge
 
 You might have noticed that before we ran the compiler, we had red squigglies complaining about types missing in our `Artist0.tsx`:
 
-![A TypeScript error: "Property 'birthYear' does not exist on type 'Artist0_artist'."](typescript-error.png)
+![A TypeScript error: "Property 'birthYear' does not exist on type 'Artist0_artist'."](./docs/typescript-error.png)
 
 This was a clue to us that Relay hadn't run. The type for this query fragment didn't yet include the property we added.
 
