@@ -10,7 +10,6 @@ const Artist0: React.FC<Artist0Props> = (props) => {
   return (
     <div>
       <h1>{props.artist.name}</h1>
-      <h2>b. {props.artist.birthYear}</h2>
     </div>
   );
 };
@@ -19,7 +18,6 @@ export const Artist0FragmentContainer = createFragmentContainer(Artist0, {
   artist: graphql`
     fragment Artist0_artist on Artist {
       name
-      birthYear
     }
   `,
 });
