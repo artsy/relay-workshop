@@ -3,10 +3,11 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type Exercise0QueryVariables = {};
 export type Exercise0QueryResponse = {
     readonly artist: {
-        readonly name: string;
+        readonly " $fragmentRefs": FragmentRefs<"Artist0_artist">;
     } | null;
 };
 export type Exercise0Query = {
@@ -19,9 +20,14 @@ export type Exercise0Query = {
 /*
 query Exercise0Query {
   artist(id: 1) {
-    name
+    ...Artist0_artist
     id
   }
+}
+
+fragment Artist0_artist on Artist {
+  name
+  birthYear
 }
 */
 
@@ -32,14 +38,7 @@ var v0 = [
     "name": "id",
     "value": 1
   }
-],
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "name",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -55,7 +54,11 @@ return {
         "name": "artist",
         "plural": false,
         "selections": [
-          (v1/*: any*/)
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "Artist0_artist"
+          }
         ],
         "storageKey": "artist(id:1)"
       }
@@ -77,7 +80,20 @@ return {
         "name": "artist",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "birthYear",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -91,14 +107,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "0be1c46bb7bddbca9d1199bc2a425fca",
+    "cacheID": "8512f08098c079e805d684b590d03422",
     "id": null,
     "metadata": {},
     "name": "Exercise0Query",
     "operationKind": "query",
-    "text": "query Exercise0Query {\n  artist(id: 1) {\n    name\n    id\n  }\n}\n"
+    "text": "query Exercise0Query {\n  artist(id: 1) {\n    ...Artist0_artist\n    id\n  }\n}\n\nfragment Artist0_artist on Artist {\n  name\n  birthYear\n}\n"
   }
 };
 })();
-(node as any).hash = 'bd79698b9b33fd98b6fdd219a1085e09';
+(node as any).hash = '72437e871096c0cd16a1092ca021b512';
 export default node;

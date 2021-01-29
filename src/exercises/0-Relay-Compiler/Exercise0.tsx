@@ -2,14 +2,15 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { environment } from '../../relay';
 import { Exercise0Query } from './__generated__/Exercise0Query.graphql.js';
+import { Artist0FragmentContainer } from './Artist0';
 
-const Exercise0 = () => (
+export const Exercise0 = () => (
   <QueryRenderer<Exercise0Query>
     environment={environment}
     query={graphql`
       query Exercise0Query {
         artist(id: 1) {
-          name
+          ...Artist0_artist
         }
       }
     `}
@@ -21,9 +22,7 @@ const Exercise0 = () => (
       if (!props) {
         return <div>Loading</div>;
       }
-      return <div>Hello, {props.artist.name}</div>;
+      return <Artist0FragmentContainer artist={props.artist} />;
     }}
   />
 );
-
-export default Exercise0;
