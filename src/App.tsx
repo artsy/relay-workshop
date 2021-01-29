@@ -1,29 +1,23 @@
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
-import { environment } from './relay';
-import { AppQuery } from './__generated__/AppQuery.graphql.js';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Exercise0 from './exercises/0-Relay-Compiler/Exercise0';
+import Home from './Home';
+import Nav from './Nav';
 
-const App = () => (
-  <QueryRenderer<AppQuery>
-    environment={environment}
-    query={graphql`
-      query AppQuery {
-        artist(id: 1) {
-          name
-        }
-      }
-    `}
-    variables={{}}
-    render={({ error, props }) => {
-      if (error) {
-        return <div>Error!</div>;
-      }
-      if (!props) {
-        return <div>Loading</div>;
-      }
-      return <div>Hello, {props.artist.name}</div>;
-    }}
-  />
-);
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Nav />
+      <Switch>
+        <Route path="/exercise-0">
+          <Exercise0 />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
 
 export default App;

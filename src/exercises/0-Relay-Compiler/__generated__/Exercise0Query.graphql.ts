@@ -3,21 +3,21 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-export type AppQueryVariables = {};
-export type AppQueryResponse = {
+export type Exercise0QueryVariables = {};
+export type Exercise0QueryResponse = {
     readonly artist: {
         readonly name: string;
     } | null;
 };
-export type AppQuery = {
-    readonly response: AppQueryResponse;
-    readonly variables: AppQueryVariables;
+export type Exercise0Query = {
+    readonly response: Exercise0QueryResponse;
+    readonly variables: Exercise0QueryVariables;
 };
 
 
 
 /*
-query AppQuery {
+query Exercise0Query {
   artist(id: 1) {
     name
     id
@@ -45,7 +45,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppQuery",
+    "name": "Exercise0Query",
     "selections": [
       {
         "alias": null,
@@ -67,7 +67,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "AppQuery",
+    "name": "Exercise0Query",
     "selections": [
       {
         "alias": null,
@@ -91,14 +91,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "45562cdf47de90d5d8ef8c085b3f81ae",
+    "cacheID": "0be1c46bb7bddbca9d1199bc2a425fca",
     "id": null,
     "metadata": {},
-    "name": "AppQuery",
+    "name": "Exercise0Query",
     "operationKind": "query",
-    "text": "query AppQuery {\n  artist(id: 1) {\n    name\n    id\n  }\n}\n"
+    "text": "query Exercise0Query {\n  artist(id: 1) {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '3aeea66463890a4b567dcadbb550effb';
+(node as any).hash = 'bd79698b9b33fd98b6fdd219a1085e09';
 export default node;
