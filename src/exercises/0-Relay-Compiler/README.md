@@ -34,7 +34,7 @@ This app renders information about an artist.
 
 ![The app for this exercise, running in a browser](./docs/exercise0.png)
 
-The component rendering the artist information is [the Artist0 component](./Artist0.tsx). It emits the artist name (TODO: line number): 
+The component rendering the artist information is [the Artist0 component](./Artist0.tsx). It [emits the artist name](./Artist0.tsx#L10-L14): 
 
 ```tsx
   return (
@@ -43,21 +43,23 @@ The component rendering the artist information is [the Artist0 component](./Arti
     </div>
   );
 ```
+_Artist0.tsx, lines 10-14_
 
-The component is connected to Relay (don't worry about _how_ yet). It queries for data on the `Artist` type of our GraphQL schema by defining a query fragment (TODO: line number): 
+The component is connected to Relay (don't worry about _how_ yet). It queries for data on the `Artist` type of our GraphQL schema by defining [a query fragment](./Artist0.tsx#L19-L21): 
 
 ```graphql
   fragment Artist0_artist on Artist {
     name
   }
 ```
+_Artist0.tsx, lines 19-21_
 
 The Relay compiler inspects fragments like this one to generate the infrastructure it needs to efficiently query our GraphQL endpoint at runtime. 
 
 
 ### Enhance the Artist0 component
 
-It'd be nice if our users could see the artist's year of birth in addition to their name. Lucky for us: our GraphQL schema exposes that data for us! In addition to `id` and `name`, the `Artist` type defined in our schema also holds a `birthYear` property (TODO: link to schema):
+It'd be nice if our users could see the artist's year of birth in addition to their name. Lucky for us: our GraphQL schema exposes that data for us! In addition to `id` and `name`, [the `Artist` type defined in our schema also holds a `birthYear` property](../../graphql/schema/fakeArtsy.graphql#L5-L9):
 
 ```graphql
   type Artist {
@@ -66,6 +68,8 @@ It'd be nice if our users could see the artist's year of birth in addition to th
     birthYear: Int!
   }
 ```
+_src/graphql/schema/fakeArtsy.graphql, lines 5-9_
+
 
 We want to update our component to query and emit this field.
 
@@ -73,7 +77,7 @@ We want to update our component to query and emit this field.
 
 Start by adding the `birthYear` property to the GraphQL query fragment.
 
-💻 _Add `birthYear` to [line TODO in the Artist0 component](./Artist0.tsx):_
+💻 _Add `birthYear` to [line 21 in the Artist0 component](./Artist0.tsx#L21):_
 
 ```graphql
   fragment Artist0_artist on Artist {
@@ -81,10 +85,11 @@ Start by adding the `birthYear` property to the GraphQL query fragment.
     birthYear
   }
 ```
+_Artist0.tsx, lines 19-22_
 
 Then we'll need to render the field in the React component.
 
-💻 _Add a line to render the `birthYear` field in [the Artist0 component](./Artist0.tsx):_
+💻 _Add a line to render the `birthYear` field in [the Artist0 component](./Artist0.tsx#L13):_
 
 ```typescript
   return (
@@ -94,6 +99,7 @@ Then we'll need to render the field in the React component.
     </div>
   );
 ```
+_Artist0.tsx, lines 10-15_
 
 💻 _Save the Artist0.tsx file._
 
@@ -127,7 +133,7 @@ There's a file in here named [`Artist0_artist.graphql.ts`](__generated__/Artist0
 
 #### Relay added the new field to the query that will be used at runtime.
 
-Toward the bottom of [`Artist0_artist.graphql.ts`](__generated__/Artist0_artist.graphql.ts) (TODO: line numbers) you'll see a variable named `node` defined. This defines the shape of the query that Relay will be making for this component at runtime, and it now contains the field we added: 
+Toward the bottom of [`Artist0_artist.graphql.ts`](__generated__/Artist0_artist.graphql.ts#L20-L43) you'll see a variable named `node` defined. This defines the shape of the query that Relay will be making for this component at runtime, and it now contains the field we added: 
 
 ```typescript
 const node: ReaderFragment = {
@@ -148,6 +154,8 @@ const node: ReaderFragment = {
     // ....
 };
 ```
+_\_\_generated\_\_/Artist0_artist.graphql.ts, lines 20-43_
+
 
 #### Relay added the new field to the associated types.
 
@@ -159,7 +167,7 @@ You might have noticed that before we ran the compiler, we had red squigglies co
 
 This was a clue to us that Relay hadn't run. The type for this query fragment didn't yet include the property we added.
 
-Once we ran the compiler, the error went away because the property had been added to the type associated with this component (TODO: line number):
+Once we ran the compiler, the error went away because the property had been added to [the type associated with this component](./__generated__/Artist0_artist.graphql.ts#L7-L11):
 
 ```typescript
 export type Artist0_artist = {
@@ -168,6 +176,7 @@ export type Artist0_artist = {
     readonly " $refType": "Artist0_artist";
 };
 ```
+_\_\_generated\_\_/Artist0_artist.graphql.ts, lines 7-11_
 
 ## Wrapping up
 
