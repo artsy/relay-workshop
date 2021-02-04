@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Exercise0 from './exercises/0-Relay-Compiler/Exercise0';
+import { Exercise0 } from './exercises/0-Relay-Compiler/Exercise0';
 import Home from './Home';
 import Nav from './Nav';
 

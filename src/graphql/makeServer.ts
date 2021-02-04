@@ -14,7 +14,7 @@ export function makeServer() {
   server.create('artist', {
     id: '1',
     name: 'Andy Warhol',
-    birthYear: 1940,
+    birthYear: 1928,
   });
 
   return server;
