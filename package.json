@@ -16,9 +16,9 @@
   },
   "scripts": {
     "relay": "relay-compiler --src ./src --schema src/graphql/schema/fakeArtsy.graphql  --extensions ts tsx --language typescript",
-    "start": "concurrently -n relay,web \"yarn relay --watch\" \"yarn start-web\"",
-    "start-web": "parcel src/index.html",
     "start-exercise-1": "yarn start-web",
+    "start-exercises": "concurrently -n relay,web \"yarn relay --watch\" \"yarn start-web\"",
+    "start-web": "parcel src/index.html",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
