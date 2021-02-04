@@ -195,7 +195,3 @@ The remaining exercises are configured to automatically run Relay compilation wh
 ## Resources
 
 The [Thinking In Relay](https://relay.dev/docs/en/thinking-in-relay) doc is a great resource for understanding how Relay efficiently renders data from a GraphQL endpoint.
-
-## 
-
-From now on, we'll include Relay compilation in our startup task
