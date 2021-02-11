@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Route, Switch, useParams } from 'react-router-dom';
 import { Exercise } from '../Exercise';
+import { Artist1 } from './Artist1';
 
 export const Exercise1 = () => {
   return (
@@ -9,7 +10,7 @@ export const Exercise1 = () => {
         <Route path="/exercise-1/artist/:artistID">
           <>
             <Link to="/exercise-1">&lt; Back</Link>
-            <Artist />
+            <Artist1 />
           </>
         </Route>
         <Route path="/exercise-1/" exact>
@@ -34,10 +35,4 @@ const ArtistList = () => {
       </li>
     </ul>
   );
-};
-
-const Artist = () => {
-  const { artistID } = useParams();
-
-  return <h1> artist {artistID} </h1>;
 };
