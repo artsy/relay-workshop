@@ -32,24 +32,48 @@ This app renders a list of artists.
 
 ![The app for this exercise, running in a browser](TODO)
 
-When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page that's rendered doesn't yet emit details about the artist. 
+When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page emits the artist's ID. 
 
 ![The artist page for this exercise, running in a browser](TODO)
 
-The component rendering this page is [the Artist1 component](./Artist1.tsx). It's currently emitting a heading with the artist's ID, captured from the query string params:
+There are two components responsible for rendering the artist detail page: 
 
-TODO: line numbers
+1: [The Artist1 component](./Artist1.tsx) renders the UI. It's currently emitting a heading with the artist's ID, based on the `artist` prop passed into the component:
+
 ```typescript
-  return <h1> artist {artistID} </h1>;
+export const Artist1: React.FC<Artist1Props> = (props) => {
+  return (
+    <div>
+      <h1> artist {props.artist.artistID} </h1>
+    </div>
+  );
+};
 ```
+_TODO: line numbers_
+
+2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on it:
+
+```typescript
+export const Artist1QueryRenderer = () => {
+  const { artistID } = useParams();
+  const artist = {
+    artistID,
+  };
+
+  return <Artist1 artist={artist} />;
+};
+```
+_TODO: line numbers_
+
+Note that `useParams` is a hook from `react-router-dom` that extracts the artistID from the path. 
 
 ### Render some artist data
 
-Let's update this page to show actual data about the current artist. 
+An artist ID doesn't mean much to a user. Let's update this page to show actual data about the current artist!
 
 #### Update the UI component to render artist data
 
-💻 _Replace line 7 with code to render the artist name and birth year from props:_
+💻 _Update [the Artist1](./Artist1.tsx) component to render the artist name and birth year from props:_
 
 ```typescript
   return (
@@ -59,6 +83,7 @@ Let's update this page to show actual data about the current artist.
     </div>
   );
 ```
+_TODO: line numbers_
 
 
 #### Add a QueryRenderer to retrieve artist data

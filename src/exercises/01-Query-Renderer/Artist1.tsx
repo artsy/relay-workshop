@@ -1,8 +1,17 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
-export const Artist1 = () => {
-  const { artistID } = useParams();
+interface Artist1Props {
+  artist: {
+    artistID: number;
+    name?: string;
+    birthYear?: string;
+  };
+}
 
-  return <h1> artist {artistID} </h1>;
+export const Artist1: React.FC<Artist1Props> = (props) => {
+  return (
+    <div>
+      <h1> artist {props.artist.artistID} </h1>
+    </div>
+  );
 };
