@@ -36,15 +36,30 @@ When you click on an artist's name, it takes you to a new URL with the artist ID
 
 ![The artist page for this exercise, running in a browser](TODO)
 
-The component rendering this page is [the Artist1 component](./Artist1.tsx). 
+The component rendering this page is [the Artist1 component](./Artist1.tsx). It's currently emitting a heading with the artist's ID, captured from the query string params:
+
+TODO: line numbers
+```typescript
+  return <h1> artist {artistID} </h1>;
+```
 
 ### Render some artist data
 
-Let's update this page to show data about the current artist. 
+Let's update this page to show actual data about the current artist. 
 
-sjhsjhsjh HERE
+#### Update the UI component to render artist data
 
-#### Add UI component to render artist
+💻 _Replace line 7 with code to render the artist name and birth year from props:_
+
+```typescript
+  return (
+    <div>
+      <h1>{props.artist.name}</h1>
+      <h2>b. {props.artist.birthYear}</h2>
+    </div>
+  );
+```
+
 
 #### Add a QueryRenderer to retrieve artist data
 
