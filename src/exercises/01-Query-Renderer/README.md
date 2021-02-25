@@ -32,24 +32,48 @@ This app renders a list of artists.
 
 ![The app for this exercise, running in a browser](TODO)
 
-When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page that's rendered doesn't yet emit details about the artist. 
+When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page emits the artist's ID. 
 
 ![The artist page for this exercise, running in a browser](TODO)
 
-The component rendering this page is [the Artist1 component](./Artist1.tsx). It's currently emitting a heading with the artist's ID, captured from the query string params:
+There are two components responsible for rendering the artist detail page: 
 
-TODO: line numbers
+1: [The Artist1 component](./Artist1.tsx) renders the UI. It's currently emitting a heading with the artist's ID, based on the `artist` prop passed into the component:
+
 ```typescript
-  return <h1> artist {artistID} </h1>;
+export const Artist1: React.FC<Artist1Props> = (props) => {
+  return (
+    <div>
+      <h1> artist {props.artist.artistID} </h1>
+    </div>
+  );
+};
 ```
+_TODO: line numbers_
+
+2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on it:
+
+```typescript
+export const Artist1QueryRenderer = () => {
+  const { artistID } = useParams();
+  const artist = {
+    artistID,
+  };
+
+  return <Artist1 artist={artist} />;
+};
+```
+_TODO: line numbers_
+
+Note that `useParams` is a hook from `react-router-dom` that extracts the artistID from the path. 
 
 ### Render some artist data
 
-Let's update this page to show actual data about the current artist. 
+An artist ID doesn't mean much to a user. Let's update this page to show actual data about the current artist!
 
 #### Update the UI component to render artist data
 
-💻 _Replace line 7 with code to render the artist name and birth year from props:_
+💻 _Update [the Artist1](./Artist1.tsx) component to render the artist name and birth year from props:_
 
 ```typescript
   return (
@@ -59,9 +83,95 @@ Let's update this page to show actual data about the current artist.
     </div>
   );
 ```
+_TODO: line numbers_
 
+Save the file, and you should see that we're not displaying anything useful on the artist detail screen: 
+
+![The artist detail screen showing no useful text](TODO)
+
+This is because our screen isn't loading any artist data.
 
 #### Add a QueryRenderer to retrieve artist data
+
+We're going to modify our Artist1QueryRenderer to use a Relay `<QueryRenderer>` component to connect our page to our GraphQL endpoint.
+
+💻 _Add an import statement for some dependencies to Artist1QueryRenderer:_
+
+```typescript
+import { graphql, QueryRenderer } from 'react-relay';
+import { environment } from '../../relay';
+```
+
+_TODO: line numbers_
+
+`QueryRenderer` is the component we'll render to connect our component to the GraphQL endpoint; `graphql` helps us specify the GraphQL query that should be made.
+
+We'll talk about the `environment` dependency in an upcoming exercise. For now you don't need to know much about it other than it's a place for Relay to cache network requests.
+
+💻 _Update the Artist1QueryRenderer component to return a QueryRenderer:_
+
+```typescript
+  return (
+    <QueryRenderer
+      environment={environment}
+      query={graphql`
+        query Artist1QueryRendererQuery {
+          artist(id: 1) {
+            name
+            birthYear
+          }
+        }
+      `}
+      variables={{}}
+      render={() => <Artist1 artist={artist} />}
+    />
+  );
+```
+
+_TODO: line numbers_
+
+This doesn't give us exactly what we want, but it's the simplest QueryRenderer we can emit. Let's work through the props we're passing in.
+
+##### `environment={environment}`
+
+As mentioned above, this will get covered in more detail later, but the `environment` is a place for Relay to cache network requests among other things.
+
+##### `` query=graphql`...` ``
+
+The `query` argument is the query we want to execute against our GraphQL endpoint. 
+
+Relay is very particular about the names you give queries. Try changing the name of the query from `Artist1QueryRendererQuery` and see what happens in your console:
+
+```
+[relay] Parse error: Error: RelayFindGraphQLTags: Operation names in graphql tags must be prefixed with the module name and end in "Mutation", "Query", or "Subscription". Got `Artist1QueryRendererQueryyyyyy` in module `Artist1QueryRenderer`. in "exercises/01-Query-Renderer/Artist1QueryRenderer.tsx"
+```
+
+This is an easy thing to mess up — expect to encounter this error many times 😅
+
+Also note that the query is using a hardcoded artist ID. We'll correct this soon!
+
+##### `variables={{}}`
+
+The `variables` prop takes an object containing variables to pass into the query. For now we're passing an empty object. 
+
+##### `render={() => <Artist1 artist={artist}>}`
+
+The `render` prop is a function that will be called to render the child component tree. For now we're telling it to render an `Artist1` component using the `artist` object we constructed from the URL params. We're not passing the artist from the server response yet. This explains why we still don't see anything useful on our artist detail page.
+
+💻 _Update the `render` prop to pass the artist from the resolved query, if it exists:_
+
+```typescript
+  render={({ props }) => {
+    if (!props || !props.artist) {
+      return;
+    }
+    return <Artist1 artist={props.artist} />;
+  }}
+```
+
+_TODO: line numbers_
+
+
 
 ##### Write the GraphQL query
 
