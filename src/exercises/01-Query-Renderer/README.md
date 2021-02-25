@@ -104,7 +104,7 @@ import { environment } from '../../relay';
 
 _TODO: line numbers_
 
-`QueryRenderer` is the component we're going to render; `graphql` helps us specify the GraphQL query that should be made.
+`QueryRenderer` is the component we'll render to connect our component to the GraphQL endpoint; `graphql` helps us specify the GraphQL query that should be made.
 
 We'll talk about the `environment` dependency in an upcoming exercise. For now you don't need to know much about it other than it's a place for Relay to cache network requests.
 
