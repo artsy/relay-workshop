@@ -6,10 +6,10 @@
 //   const { artistID } = useParams();
 
 //   return (
-//     <QueryRenderer<Artist1Query>
+//     <QueryRenderer<Artist1QueryRendererQuery>
 //       environment={environment}
 //       query={graphql`
-//         query Artist1Query($artistID: ID!) {
+//         query Artist1QueryRendererQuery($artistID: ID!) {
 //           artist(id: $artistID) {
 //             name
 //             birthYear
