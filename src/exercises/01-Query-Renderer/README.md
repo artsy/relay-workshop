@@ -175,6 +175,8 @@ The `render` prop is a function that will be called to render the child componen
 
 _TODO: line numbers_
 
+TODO: recap what changes they'll see here, and insert a screenshot. 
+
 ##### Fix types for artist
 
 If you notice we are seeing some type errors in the `render` prop of the QueryRenderer that read `Property 'artist' does not exist on type 'unknown'.`. The QueryRenderer component takes a type argument that corresponds to the type of `props`. Relay compiler generated this type for us based on the query we passed, but we haven't attached it to the QueryRenderer yet. We need to import this generated type and then pass it to the QueryRenderer.
@@ -223,23 +225,101 @@ _TODO: add a gif_
 
 #### Pass arguments to the query
 
-##### Step 1: Move arg from query to variables prop
+Our GraphQL query has the artist ID hardcoded: 
+
+```graphql
+  artist(id: 1) {
+    name
+    birthYear
+  }
+```
+TODO: line numbers.
+
+This results in the same artist always showing, no matter which artist page we're on. Let's fix this.
+
+##### Step 1: Move the hardcoded artistID from the query prop to the variables prop
+
+Arguments can be passed into the `query` of a `QueryRenderer` through the `variables` prop. Let's move the hardcoded artist ID to a variable.
+
+💻 _Add a variable to the `query` prop named `artistID`:_
+
+```typescript
+    <QueryRenderer<Artist1QueryRendererQuery>
+      // ...
+      query={graphql`
+        query Artist1QueryRendererQuery($artistID: ID!) {
+          artist(id: $artistID) {
+            // ...
+          }
+        }
+      `}
+      // ...
+    />
+```
+
+_TODO: line numbers_
+
+Notice that we add the variable to the top-level `query` as well as the `artist` type we're querying. 
+
+At this point you'll get a type error on the `variables` prop. This is because the query is expecting a property named `artistID` on the `variables` argument.
+
+💻 _Add a hardcoded `artistID` to the `variables` prop:_
+
+```typescript
+    <QueryRenderer<Artist1QueryRendererQuery>
+      // ...
+      variables={{artistID: '1'}}
+      // ...
+    />
+```
+
+_TODO: line numbers_
+
+Save and refresh and you'll see...not much is different. We merely moved the hardcoded value from one place to another.
+
+But! Now that we're passing the `artistID` _into_ the `QueryRenderer`, we can pass whatever we want — like the ID from the current route!
 
 ##### Step 2: Grab value of variable from route 
+
+We're already grabbing the artistID from the route params. We need to pass it into our query. 
+
+💻 _Replace the hardcoded `artistID` variable with the value from the route parameter:_
+
+```typescript
+    <QueryRenderer<Artist1QueryRendererQuery>
+      // ...
+      variables={{artistID}}
+      // ...
+    />
+```
+
+_TODO: line numbers_
+
+Now when we visit [Kehinde Wiley's page](http://localhost:1234/exercise-1/artist/3) we see his info! 🕺💃
+
+![The artist detail screen showing Kehinde's info](TODO)
 
 ## TODO:
 
 - See if there are other things we specify in force/eigen when using QueryRenderers that are worth calling out
 
-## Summary
+## Wrapping up
 
-- Summarize what the query renderer is doing to connect the component to the graphql API
-  - react-relay vs relay
-    - relay doesn't include react components; react-relay does
+In this exercise we connected our React component to our GraphQL endpoint with a Relay `QueryRenderer`. (Technically a `react-relay` `QueryRenderer` — [all the React components associated with Relay exist in that package](https://relay.dev/docs/en/architecture-overview#core-modules).)
+
+When our component first renders, our `QueryRenderer`'s `render` prop gets called, with empty `props`. This paints a `Loading` indicator to the screen.
+
+Meanwhile, Relay makes a network request to our GraphQL endpoint. It passes the `query` and `variables` props from our `QueryRenderer` to the GraphQL server. 
+
+When the server responds, the `QueryRenderer` calls the `render` prop again, this time with `props` loaded from the network response. This renders our component tree, hydrated with data. 
+
+In day-to-day development with Relay, you'll work with QueryRenderers occasionally — typically when you're adding a new page or screen, or when you need a test or storybook to connect a component to GraphQL data. 
 
 ## Recommendations
 
 ### Be careful nesting QueryRenderers
+
+Each QueryRenderer is associated with one request to our GraphQL server. Nesting QueryRenderers therefore has a cascading effect:
 
 > As React components, QueryRenderers can be rendered anywhere that a React component can be rendered, i.e. not just at the top level but within other components or containers; for example, to lazily fetch additional data for a popover.
 > 
@@ -249,7 +329,5 @@ _Source: [Relay docs: QueryRenderer](https://relay.dev/docs/en/query-renderer)_
 
 ## Resources
 
-https://relay.dev/docs/en/runtime-architecture
-
-Not sure if I'll use this: 
-_Source: [QueryRenderer](https://relay.dev/docs/en/query-renderer)_
+* [Relay docs: QueryRenderer](https://relay.dev/docs/en/query-renderer)
+* [Relay docs: Architecture Overview](https://relay.dev/docs/en/architecture-overview#core-modules)
