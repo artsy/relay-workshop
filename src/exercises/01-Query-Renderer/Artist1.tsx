@@ -2,9 +2,9 @@ import React from 'react';
 
 interface Artist1Props {
   artist: {
-    artistID: number;
+    artistID?: number;
     name?: string;
-    birthYear?: string;
+    birthYear?: number;
   };
 }
 

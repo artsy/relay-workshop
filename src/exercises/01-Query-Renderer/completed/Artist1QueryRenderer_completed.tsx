@@ -1,18 +1,8 @@
 // import React from 'react';
-// import { graphql, QueryRenderer } from 'react-relay';
 // import { useParams } from 'react-router-dom';
-// import { environment } from '../../relay';
+// import { Artist1 } from './Artist1';
 
-// export const Artist1 = (props) => {
-//   return (
-//     <div>
-//       <h1>{props.artist.name}</h1>
-//       <h2>b. {props.artist.birthYear}</h2>
-//     </div>
-//   );
-// };
-
-// export const Artist1QueryRenderer: React.FC = () => {
+// export const Artist1QueryRenderer = () => {
 //   const { artistID } = useParams();
 
 //   return (
