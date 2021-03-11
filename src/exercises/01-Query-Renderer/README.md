@@ -132,7 +132,7 @@ _TODO: line numbers_
 
 This doesn't give us exactly what we want, but it's the simplest QueryRenderer we can emit. When you save, you should see some artist info on the screen:
 
-![Artist page with hardcoded artist ID](./docs/hardcoded-artist-id.png.png)
+![Artist page with hardcoded artist ID](./docs/hardcoded-artist-id.png)
 
 Let's work through the props we're passing into this `QueryRenderer`.
 
