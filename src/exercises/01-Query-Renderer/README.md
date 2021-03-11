@@ -288,6 +288,7 @@ We're already grabbing the artistID from the route params. We need to pass it in
 ```typescript
     <QueryRenderer<Artist1QueryRendererQuery>
       // ...
+      // pass the artistID variable we extracted from the route:
       variables={{artistID}}
       // ...
     />
