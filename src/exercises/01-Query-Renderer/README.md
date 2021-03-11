@@ -300,10 +300,6 @@ Now when we visit [Kehinde Wiley's page](http://localhost:1234/exercise-1/artist
 
 ![The artist detail screen showing Kehinde's info](TODO)
 
-## TODO:
-
-- See if there are other things we specify in force/eigen when using QueryRenderers that are worth calling out
-
 ## Wrapping up
 
 In this exercise we connected our React component to our GraphQL endpoint with a Relay `QueryRenderer`. (Technically a `react-relay` `QueryRenderer` — [all the React components associated with Relay exist in that package](https://relay.dev/docs/en/architecture-overview#core-modules).)
