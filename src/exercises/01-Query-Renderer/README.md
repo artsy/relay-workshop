@@ -4,7 +4,7 @@
 
 > A QueryRenderer is a React Component at the root of a Relay component tree. It takes a query, fetches the given query, and uses the render prop to render the resulting data.
 
-_Source: [Relay docs: QueryRenderer](https://relay.dev/docs/en/query-renderer)_
+_Source: [Relay docs: QueryRenderer](https://relay.dev/docs/v10.1.3/query-renderer)_
 
 We've mentioned that Relay aggregates all the data needed for a component tree to render data from a GraphQL source. The component responsible for making the actual request for data is the QueryRenderer.
 
@@ -30,11 +30,11 @@ View the app for this exercise in a browser:
 
 This app renders a list of artists.
 
-![The app for this exercise, running in a browser](TODO)
+![The app for this exercise, running in a browser](./docs/0-app-at-start.png)
 
 When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page emits the artist's ID. 
 
-![The artist page for this exercise, running in a browser](TODO)
+![The artist page for this exercise, running in a browser](./docs/1-artist-page-at-start.png)
 
 There are two components responsible for rendering the artist detail page: 
 
@@ -49,7 +49,7 @@ export const Artist1: React.FC<Artist1Props> = (props) => {
   );
 };
 ```
-_TODO: line numbers_
+_./Artist1.tsx_
 
 2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on it:
 
@@ -63,7 +63,7 @@ export const Artist1QueryRenderer = () => {
   return <Artist1 artist={artist} />;
 };
 ```
-_TODO: line numbers_
+_./Artist1QueryRenderer.tsx_
 
 Note that `useParams` is a hook from `react-router-dom` that extracts the artistID from the path. 
 
@@ -83,11 +83,11 @@ An artist ID doesn't mean much to a user. Let's update this page to show actual 
     </div>
   );
 ```
-_TODO: line numbers_
+_./Artist1.tsx_
 
 Save the file, and you should see that we're not displaying anything useful on the artist detail screen: 
 
-![The artist detail screen showing no useful text](TODO)
+![The artist detail screen showing no useful text](./docs/2-artist-screen-not-useful.png)
 
 This is because our screen isn't loading any artist data.
 
@@ -101,8 +101,7 @@ We're going to modify our Artist1QueryRenderer to use a Relay `<QueryRenderer>` 
 import { graphql, QueryRenderer } from 'react-relay';
 import { environment } from '../../relay';
 ```
-
-_TODO: line numbers_
+_./Artist1QueryRenderer.tsx_
 
 `QueryRenderer` is the component we'll use to connect our component to the GraphQL endpoint; `graphql` helps us specify the GraphQL query that should be made.
 
@@ -127,12 +126,9 @@ We'll talk about the `environment` dependency in an upcoming exercise. For now y
     />
   );
 ```
+_./Artist1QueryRenderer.tsx_
 
-_TODO: line numbers_
-
-This doesn't give us exactly what we want, but it's the simplest QueryRenderer we can emit. When you save, you should see some artist info on the screen:
-
-![Artist page with hardcoded artist ID](./docs/hardcoded-artist-id.png)
+This doesn't give us exactly what we want, but it's the simplest QueryRenderer we can emit. When you save, you shouldn't see any changes on the artist page. 
 
 Let's work through the props we're passing into this `QueryRenderer`.
 
@@ -172,10 +168,11 @@ The `render` prop is a function that will be called to render the child componen
     return <Artist1 artist={props.artist} />;
   }}
 ```
+_./Artist1.tsx_
 
-_TODO: line numbers_
+After saving, you should finally see artist info on the artist page! 
 
-TODO: recap what changes they'll see here, and insert a screenshot. 
+![Artist page with hardcoded artist ID](./docs/3-hardcoded-artist-id.png)
 
 ##### Fix types for artist
 
@@ -185,6 +182,8 @@ If you notice we are seeing some type errors in the `render` prop of the QueryRe
 
 ```typescript
 import { Artist1QueryRendererQuery } from "./__generated__/Artist1QueryRendererQuery.graphql"
+
+// ...
 
   return (
     <QueryRenderer<Artist1QueryRendererQuery>
@@ -201,8 +200,9 @@ import { Artist1QueryRendererQuery } from "./__generated__/Artist1QueryRendererQ
     />
   );
 ```
+_./Artist1QueryRenderer.tsx_
 
-Now we should no longer have any type errors. Red squigglies are gone 🎉
+Now we should no longer have any type errors. Red squigglies are gone! 🎉
 
 ##### Add a loading indicator
 
@@ -218,10 +218,11 @@ When we render this component for the first time we won't have an artist because
     return <Artist1 artist={props.artist} />;
   }}
 ```
+_./Artist1QueryRenderer.tsx_
 
 If you refresh the page you'll notice that while the network is resolving we display a loading indicator.
 
-_TODO: add a gif_
+![The artist detail screen showing a loading indicator](./docs/4-loading-indicator.gif)
 
 #### Pass arguments to the query
 
@@ -233,7 +234,7 @@ Our GraphQL query has the artist ID hardcoded:
     birthYear
   }
 ```
-TODO: line numbers.
+_./Artist1QueryRenderer.tsx_
 
 This results in the same artist always showing, no matter which artist page we're on. Let's fix this.
 
@@ -256,8 +257,7 @@ Arguments can be passed into the `query` of a `QueryRenderer` through the `varia
       // ...
     />
 ```
-
-_TODO: line numbers_
+_./Artist1QueryRenderer.tsx_
 
 Notice that we add the variable to the top-level `query` as well as the `artist` type we're querying. 
 
@@ -272,8 +272,7 @@ At this point you'll get a type error on the `variables` prop. This is because t
       // ...
     />
 ```
-
-_TODO: line numbers_
+_./Artist1QueryRenderer.tsx_
 
 Save and refresh and you'll see...not much is different. We merely moved the hardcoded value from one place to another.
 
@@ -293,12 +292,11 @@ We're already grabbing the artistID from the route params. We need to pass it in
       // ...
     />
 ```
-
-_TODO: line numbers_
+_./Artist1QueryRenderer.tsx_
 
 Now when we visit [Kehinde Wiley's page](http://localhost:1234/exercise-1/artist/3) we see his info! 🕺💃
 
-![The artist detail screen showing Kehinde's info](TODO)
+![The artist detail screen showing Kehinde's info](./docs/5-kehinde-wiley.png)
 
 ## Wrapping up
 
