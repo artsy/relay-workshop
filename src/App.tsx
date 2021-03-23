@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Exercise0 } from './exercises/0-Relay-Compiler/Exercise0';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Exercise0 } from './exercises/00-Relay-Compiler/Exercise0';
 import { Exercise1 } from './exercises/01-Query-Renderer/Exercise1';
 import Home from './Home';
 import Nav from './Nav';
