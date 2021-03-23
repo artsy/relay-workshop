@@ -1,3 +1,5 @@
+// This component, if uncommented, shows the goal state of the Artist1QueryRenderer component after working through this exercise.
+
 // import React from 'react';
 // import { useParams } from 'react-router-dom';
 // import { Artist1 } from './Artist1';

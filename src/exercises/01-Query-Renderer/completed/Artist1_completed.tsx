@@ -1,3 +1,5 @@
+// This component, if uncommented, shows the goal state of the Artist1 component after working through this exercise.
+
 // import React from 'react';
 
 // interface Artist1Props {
