@@ -29,9 +29,13 @@ query Artist2QueryRendererQuery(
   }
 }
 
-fragment Artist2_artist on Artist {
+fragment Artist2Heading_artist on Artist {
   name
   birthYear
+}
+
+fragment Artist2_artist on Artist {
+  ...Artist2Heading_artist
   bio
   auctionRecord
   auctionLotsSoldAnnually
@@ -142,12 +146,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7eeb6feee9e6cfe012ba790513d4b593",
+    "cacheID": "f7fe24efa7d5ac24be1ca0c8d4c6aee8",
     "id": null,
     "metadata": {},
     "name": "Artist2QueryRendererQuery",
     "operationKind": "query",
-    "text": "query Artist2QueryRendererQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    ...Artist2_artist\n    id\n  }\n}\n\nfragment Artist2_artist on Artist {\n  name\n  birthYear\n  bio\n  auctionRecord\n  auctionLotsSoldAnnually\n}\n"
+    "text": "query Artist2QueryRendererQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    ...Artist2_artist\n    id\n  }\n}\n\nfragment Artist2Heading_artist on Artist {\n  name\n  birthYear\n}\n\nfragment Artist2_artist on Artist {\n  ...Artist2Heading_artist\n  bio\n  auctionRecord\n  auctionLotsSoldAnnually\n}\n"
   }
 };
 })();
