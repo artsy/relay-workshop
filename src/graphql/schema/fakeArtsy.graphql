@@ -6,6 +6,9 @@ type Artist {
   id: ID!
   name: String!
   birthYear: Int!
+  bio: String
+  auctionRecord: String
+  auctionLotsSoldAnnually: String
 }
 
 type Root {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route, Switch, useParams } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import { Exercise } from '../Exercise';
 import { Artist1QueryRenderer } from './Artist1QueryRenderer';
 
