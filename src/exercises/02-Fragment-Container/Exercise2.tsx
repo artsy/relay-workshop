@@ -7,7 +7,7 @@ import { Artist2BioQueryRenderer } from './Artist2BioQueryRenderer';
 
 export const Exercise2 = () => {
   return (
-    <Exercise number={1} name="QueryRenderer">
+    <Exercise number={2} name="QueryRenderer">
       <Switch>
         <Route path="/exercise-2" exact>
           <>
