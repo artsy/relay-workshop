@@ -5,9 +5,7 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type Artist2_artist = {
-    readonly auctionRecord: string | null;
-    readonly auctionLotsSoldAnnually: string | null;
-    readonly " $fragmentRefs": FragmentRefs<"Artist2Heading_artist" | "Artist2Bio_artist">;
+    readonly " $fragmentRefs": FragmentRefs<"Artist2Heading_artist" | "Artist2Bio_artist" | "Artist2AuctionResults_artist">;
     readonly " $refType": "Artist2_artist";
 };
 export type Artist2_artist$data = Artist2_artist;
@@ -25,20 +23,6 @@ const node: ReaderFragment = {
   "name": "Artist2_artist",
   "selections": [
     {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "auctionRecord",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "auctionLotsSoldAnnually",
-      "storageKey": null
-    },
-    {
       "args": null,
       "kind": "FragmentSpread",
       "name": "Artist2Heading_artist"
@@ -47,10 +31,15 @@ const node: ReaderFragment = {
       "args": null,
       "kind": "FragmentSpread",
       "name": "Artist2Bio_artist"
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "Artist2AuctionResults_artist"
     }
   ],
   "type": "Artist",
   "abstractKey": null
 };
-(node as any).hash = '2e617b30ed614b9c2c77d00116e0fb77';
+(node as any).hash = '4ad02f699ba419d387e45a11a16b2e64';
 export default node;
