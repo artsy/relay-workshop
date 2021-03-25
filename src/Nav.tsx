@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { NavList, NavListItem } from './shared/NavList';
 
 const Nav: React.FC = () => {
   const [showExercises, setShowExercises] = useState(false);
@@ -7,16 +8,16 @@ const Nav: React.FC = () => {
 
   return (
     <nav>
-      <List>
-        <ListItem>
+      <NavList>
+        <NavListItem>
           <Link to="/">Home</Link>
-        </ListItem>
-        <ListItem>
+        </NavListItem>
+        <NavListItem>
           <a href="#" onClick={() => setShowExercises(!showExercises)}>
             Exercises {collapseSymbol}
           </a>
-        </ListItem>
-      </List>
+        </NavListItem>
+      </NavList>
       {showExercises && <SubNav />}
     </nav>
   );
@@ -24,24 +25,14 @@ const Nav: React.FC = () => {
 
 const SubNav: React.FC = () => {
   return (
-    <List>
-      <ListItem>
+    <NavList>
+      <NavListItem>
         <Link to="/exercise-0">Exercise 0</Link>
-      </ListItem>
-      <ListItem>
+      </NavListItem>
+      <NavListItem>
         <Link to="/exercise-1">Exercise 1</Link>
-      </ListItem>
-    </List>
-  );
-};
-
-const List: React.FC = ({ children }) => {
-  return <ul style={{ display: 'flex', padding: '0' }}>{children}</ul>;
-};
-
-const ListItem: React.FC = ({ children }) => {
-  return (
-    <li style={{ listStyleType: 'none', marginRight: '20px' }}>{children}</li>
+      </NavListItem>
+    </NavList>
   );
 };
 
