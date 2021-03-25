@@ -28,17 +28,17 @@ View the app for this exercise in a browser:
 
 ### Orient yourself
 
-This app renders a list of artists:
-TODO: is this what the app does? figure out a good example for extracting.
-TODO: screenshot of the app
+This app renders details about an artist, on two separate pages. A sub-nav menu is provided for navigating between them.
 
-When you click on an artist's name, it takes you to the artist detail page:
+The first page, "Bio", shows the artist's bio:
 
-TODO: screenshot of starting artist detail page
+![The artist Bio page](./docs/00-bio-page.png)
 
-We'll be focused on the artist detail page. 
+The second page, "Auction Results", shows a summary of the artist's auction results: 
 
-The 
+![The artist Auction Results page](./docs/01-auction-results-page.png)
+
+
 
 - exercise: extract a common component
   - notice two components are showing the same thing
