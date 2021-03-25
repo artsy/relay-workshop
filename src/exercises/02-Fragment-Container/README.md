@@ -28,26 +28,26 @@ View the app for this exercise in a browser:
 
 ### Orient yourself
 
-This app renders a list of artists:
-TODO: is this what the app does? figure out a good example for extracting.
-TODO: screenshot of the app
+This app looks pretty similar to the app in Exercise 1. It renders a list of artists: 
 
-When you click on an artist's name, it takes you to the artist detail page:
+![The app for this exercise, showing a list of artists](./docs/00-artist-list.png)
 
-TODO: screenshot of starting artist detail page
+When you click on an artist's name, it takes you to a detail page for that artist. The artist detail page shows the artist name and birth year, bio, and some auction result data: 
 
-We'll be focused on the artist detail page. 
+![The artist detail page for this exercise](./docs/01-artist-detail-page.png)
 
-The 
+We're going to focus on the artist detail page for this exercise. 
 
-- exercise: extract a common component
-  - notice two components are showing the same thing
-  - create common UI component
-  - add graphql fragment
-  - connect fragment to UI with FragmentContainer
-  - update caller UIs to call new component
-  - spread fragment into caller queries
-  - recompile
+
+
+- exercise: 
+  - view extracted components 
+  - turn extracted components into fragment containers
+    - add graphql fragment
+    - connect fragment to UI with FragmentContainer
+    - update caller UIs to call new component
+    - spread fragment into caller queries
+    - repeat until all child components are fragment containers
 - Summary
   - how do fragment containers all bubble up into one query renderer?
   - common gotcha
