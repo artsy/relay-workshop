@@ -3,16 +3,13 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type Artist2QueryRendererQueryVariables = {
     artistID: string;
 };
 export type Artist2QueryRendererQueryResponse = {
     readonly artist: {
-        readonly name: string;
-        readonly birthYear: number;
-        readonly bio: string | null;
-        readonly auctionRecord: string | null;
-        readonly auctionLotsSoldAnnually: string | null;
+        readonly " $fragmentRefs": FragmentRefs<"Artist2_artist">;
     } | null;
 };
 export type Artist2QueryRendererQuery = {
@@ -27,13 +24,17 @@ query Artist2QueryRendererQuery(
   $artistID: ID!
 ) {
   artist(id: $artistID) {
-    name
-    birthYear
-    bio
-    auctionRecord
-    auctionLotsSoldAnnually
+    ...Artist2_artist
     id
   }
+}
+
+fragment Artist2_artist on Artist {
+  name
+  birthYear
+  bio
+  auctionRecord
+  auctionLotsSoldAnnually
 }
 */
 
@@ -51,42 +52,7 @@ v1 = [
     "name": "id",
     "variableName": "artistID"
   }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "name",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "birthYear",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "bio",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "auctionRecord",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "auctionLotsSoldAnnually",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -102,11 +68,11 @@ return {
         "name": "artist",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/)
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "Artist2_artist"
+          }
         ],
         "storageKey": null
       }
@@ -128,11 +94,41 @@ return {
         "name": "artist",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
-          (v4/*: any*/),
-          (v5/*: any*/),
-          (v6/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "birthYear",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "bio",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "auctionRecord",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "auctionLotsSoldAnnually",
+            "storageKey": null
+          },
           {
             "alias": null,
             "args": null,
@@ -146,14 +142,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f4e36768fcb10e7e7714c05624dc3701",
+    "cacheID": "7eeb6feee9e6cfe012ba790513d4b593",
     "id": null,
     "metadata": {},
     "name": "Artist2QueryRendererQuery",
     "operationKind": "query",
-    "text": "query Artist2QueryRendererQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    name\n    birthYear\n    bio\n    auctionRecord\n    auctionLotsSoldAnnually\n    id\n  }\n}\n"
+    "text": "query Artist2QueryRendererQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    ...Artist2_artist\n    id\n  }\n}\n\nfragment Artist2_artist on Artist {\n  name\n  birthYear\n  bio\n  auctionRecord\n  auctionLotsSoldAnnually\n}\n"
   }
 };
 })();
-(node as any).hash = '8bcaedc542546444d0687c3e840a86d3';
+(node as any).hash = '06ee3a84a8f95567a3f67513ee272742';
 export default node;
