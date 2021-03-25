@@ -1,32 +1,26 @@
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
-import { Artist2AuctionResultsFragmentContainer } from './Artist2AuctionResults';
-import { Artist2BioFragmentContainer } from './Artist2Bio';
-import { Artist2HeadingFragmentContainer } from './Artist2Heading';
-import { Artist2_artist } from './__generated__/Artist2_artist.graphql';
+import { Artist2AuctionResults } from './Artist2AuctionResults';
+import { Artist2Bio } from './Artist2Bio';
+import { Artist2Heading } from './Artist2Heading';
 
 interface Artist2Props {
-  artist: Artist2_artist;
+  artist: {
+    name: string;
+    birthYear: number;
+    bio: string;
+    auctionRecord: string;
+    auctionLotsSoldAnnually: string;
+  };
 }
 
 export const Artist2: React.FC<Artist2Props> = ({ artist }) => {
   return (
     <div>
-      <Artist2HeadingFragmentContainer artist={artist} />
+      <Artist2Heading artist={artist} />
       <hr />
-      <Artist2BioFragmentContainer artist={artist} />
+      <Artist2Bio artist={artist} />
       <hr />
-      <Artist2AuctionResultsFragmentContainer artist={artist} />
+      <Artist2AuctionResults artist={artist} />
     </div>
   );
 };
-
-export const Artist2FragmentContainer = createFragmentContainer(Artist2, {
-  artist: graphql`
-    fragment Artist2_artist on Artist {
-      ...Artist2Heading_artist
-      ...Artist2Bio_artist
-      ...Artist2AuctionResults_artist
-    }
-  `,
-});
