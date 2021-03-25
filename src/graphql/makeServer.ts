@@ -20,7 +20,15 @@ export function makeServer() {
 
 function seedArtists() {
   return [
-    { id: '1', name: 'Andy Warhol', birthYear: 1928 },
+    {
+      id: '1',
+      name: 'Andy Warhol',
+      birthYear: 1928,
+      bio:
+        'Obsessed with celebrity, consumer culture, and mechanical (re)production, Pop artist Andy Warhol created some of the most iconic images of the 20th century. ',
+      auctionRecord: '$105M',
+      auctionLotsSoldAnnually: 103,
+    },
     { id: '2', name: 'Nicolas Party', birthYear: 1980 },
     { id: '3', name: 'Kehinde Wiley', birthYear: 1977 },
   ];

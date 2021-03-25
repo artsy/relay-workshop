@@ -32,6 +32,9 @@ const SubNav: React.FC = () => {
       <NavListItem>
         <Link to="/exercise-1">Exercise 1</Link>
       </NavListItem>
+      <NavListItem>
+        <Link to="/exercise-2">Exercise 2</Link>
+      </NavListItem>
     </NavList>
   );
 };
