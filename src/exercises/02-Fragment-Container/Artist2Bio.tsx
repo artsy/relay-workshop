@@ -1,9 +1,9 @@
 import React from 'react';
+import { createFragmentContainer, graphql } from 'react-relay';
+import { Artist2Bio_artist } from './__generated__/Artist2Bio_artist.graphql';
 
 interface Artist2BioProps {
-  artist: {
-    bio: string;
-  };
+  artist: Artist2Bio_artist;
 }
 
 export const Artist2Bio: React.FC<Artist2BioProps> = ({ artist }) => {
@@ -14,3 +14,11 @@ export const Artist2Bio: React.FC<Artist2BioProps> = ({ artist }) => {
     </>
   );
 };
+
+export const Artist2BioFragmentContainer = createFragmentContainer(Artist2Bio, {
+  artist: graphql`
+    fragment Artist2Bio_artist on Artist {
+      bio
+    }
+  `,
+});
