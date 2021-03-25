@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
+import { NavList, NavListItem } from '../../shared/NavList';
 import { Exercise } from '../Exercise';
 import { Artist2AuctionResultsQueryRenderer } from './Artist2AuctionResultsQueryRenderer';
 
@@ -28,13 +29,13 @@ export const Exercise2 = () => {
 
 const Tabs = () => {
   return (
-    <ul>
-      <li>
+    <NavList>
+      <NavListItem>
         <Link to="/exercise-2">Bio</Link>
-      </li>
-      <li>
+      </NavListItem>
+      <NavListItem>
         <Link to="/exercise-2/auction-results">Auction Results</Link>
-      </li>
-    </ul>
+      </NavListItem>
+    </NavList>
   );
 };
