@@ -16,6 +16,9 @@ export const Artist2QueryRenderer = () => {
           artist(id: $artistID) {
             name
             birthYear
+            bio
+            auctionRecord
+            auctionLotsSoldAnnually
           }
         }
       `}

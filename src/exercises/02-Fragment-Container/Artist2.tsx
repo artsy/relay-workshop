@@ -1,18 +1,26 @@
 import React from 'react';
+import { Artist2AuctionResults } from './Artist2AuctionResults';
+import { Artist2Bio } from './Artist2Bio';
+import { Artist2Heading } from './Artist2Heading';
 
 interface Artist2Props {
   artist: {
-    artistID?: number;
-    name?: string;
-    birthYear?: number;
+    name: string;
+    birthYear: number;
+    bio: string;
+    auctionRecord: string;
+    auctionLotsSoldAnnually: string;
   };
 }
 
-export const Artist2: React.FC<Artist2Props> = (props) => {
+export const Artist2: React.FC<Artist2Props> = ({ artist }) => {
   return (
     <div>
-      <h1>{props.artist.name}</h1>
-      <h2>b. {props.artist.birthYear}</h2>
+      <Artist2Heading artist={artist} />
+      <hr />
+      <Artist2Bio artist={artist} />
+      <hr />
+      <Artist2AuctionResults artist={artist} />
     </div>
   );
 };

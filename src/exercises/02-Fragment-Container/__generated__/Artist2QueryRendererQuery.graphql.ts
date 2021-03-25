@@ -10,6 +10,9 @@ export type Artist2QueryRendererQueryResponse = {
     readonly artist: {
         readonly name: string;
         readonly birthYear: number;
+        readonly bio: string | null;
+        readonly auctionRecord: string | null;
+        readonly auctionLotsSoldAnnually: string | null;
     } | null;
 };
 export type Artist2QueryRendererQuery = {
@@ -26,6 +29,9 @@ query Artist2QueryRendererQuery(
   artist(id: $artistID) {
     name
     birthYear
+    bio
+    auctionRecord
+    auctionLotsSoldAnnually
     id
   }
 }
@@ -59,6 +65,27 @@ v3 = {
   "kind": "ScalarField",
   "name": "birthYear",
   "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "bio",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "auctionRecord",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "auctionLotsSoldAnnually",
+  "storageKey": null
 };
 return {
   "fragment": {
@@ -76,7 +103,10 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          (v3/*: any*/)
+          (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v6/*: any*/)
         ],
         "storageKey": null
       }
@@ -100,6 +130,9 @@ return {
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
+          (v6/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -113,14 +146,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e68894ed14814673843c4260707845d3",
+    "cacheID": "f4e36768fcb10e7e7714c05624dc3701",
     "id": null,
     "metadata": {},
     "name": "Artist2QueryRendererQuery",
     "operationKind": "query",
-    "text": "query Artist2QueryRendererQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    name\n    birthYear\n    id\n  }\n}\n"
+    "text": "query Artist2QueryRendererQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    name\n    birthYear\n    bio\n    auctionRecord\n    auctionLotsSoldAnnually\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '9577e3f8b30158c20f1ef3fd50fe7f27';
+(node as any).hash = '8bcaedc542546444d0687c3e840a86d3';
 export default node;
