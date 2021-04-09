@@ -315,7 +315,7 @@ In day-to-day development with Relay, you'll work with QueryRenderers occasional
 ### Be careful nesting QueryRenderers
 
 Each QueryRenderer is associated with one request to our GraphQL server. As we continue to build out our Artist page, we'll want to add child components for things like their artworks, their bio, etc. What we've learned so far might give us the impression that each of those child components would be associated with its own QueryRenderer. This would cause a problem — the child components' QueryRenderers would make separate network requests, causing performance issues.
-The correct approach to this situation is to associate the child components with something called a FragmentContainer — which we'll learn about in the next exercise.
+The correct approach to this situation is to associate the child components with something called a Fragment Container — which we'll learn about [in the next exercise](../02-Fragment-Container/README.md).
 
 > As React components, QueryRenderers can be rendered anywhere that a React component can be rendered, i.e. not just at the top level but within other components or containers; for example, to lazily fetch additional data for a popover.
 > 
