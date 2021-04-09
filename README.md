@@ -1,6 +1,6 @@
 # relay-workshop
 
-Home for Artsy's [Relay](https://relay.dev/) peer learning tutorial.
+Home for Artsy's [Relay](https://relay.dev/docs/v10.1.3/) peer learning tutorial.
 
 ## Why?
 
