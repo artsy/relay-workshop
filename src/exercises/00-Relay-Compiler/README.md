@@ -4,7 +4,7 @@
 
 > Relay is a JavaScript framework for building data-driven React applications powered by GraphQL, designed from the ground up to be easy to use, extensible and, most of all, performant. Relay accomplishes this with static queries and ahead-of-time code generation.
 
-_Source: [Introduction to Relay](https://relay.dev/docs/en/introduction-to-relay)_
+_Source: [Introduction to Relay](https://relay.dev/docs/v10.1.3/)_
 
 All modern JavaScript web apps face the challenge of managing data effectively and performantly. Relay is a library that addresses this problem for React apps. 
 
@@ -197,4 +197,4 @@ The remaining exercises are configured to automatically run Relay compilation wh
 
 ## Resources
 
-The [Thinking In Relay](https://relay.dev/docs/en/thinking-in-relay) doc is a great resource for understanding how Relay efficiently renders data from a GraphQL endpoint.
+The [Thinking In Relay](https://relay.dev/docs/v10.1.3/thinking-in-relay) doc is a great resource for understanding how Relay efficiently renders data from a GraphQL endpoint.

@@ -300,7 +300,7 @@ Now when we visit [Kehinde Wiley's page](http://localhost:1234/exercise-1/artist
 
 ## Wrapping up
 
-In this exercise we connected our React component to our GraphQL endpoint with a Relay `QueryRenderer`. (Technically a `react-relay` `QueryRenderer` — [all the React components associated with Relay exist in that package](https://relay.dev/docs/en/architecture-overview#core-modules).)
+In this exercise we connected our React component to our GraphQL endpoint with a Relay `QueryRenderer`. (Technically a `react-relay` `QueryRenderer` — [all the React components associated with Relay exist in that package](https://relay.dev/docs/v10.1.3/architecture-overview#core-modules).)
 
 When our component first renders, our `QueryRenderer`'s `render` prop gets called, with empty `props`. This paints a `Loading` indicator to the screen.
 
@@ -321,9 +321,9 @@ The correct approach to this situation is to associate the child components with
 > 
 > However, a QueryRenderer will not start loading its data until it is mounted, so nested QueryRenderer components can lead to request waterfalls if used unnecessarily.
 
-_Source: [Relay docs: QueryRenderer](https://relay.dev/docs/en/query-renderer)_
+_Source: [Relay docs: QueryRenderer](https://relay.dev/docs/v10.1.3/query-renderer)_
 
 ## Resources
 
-* [Relay docs: QueryRenderer](https://relay.dev/docs/en/query-renderer)
-* [Relay docs: Architecture Overview](https://relay.dev/docs/en/architecture-overview#core-modules)
+* [Relay docs: QueryRenderer](https://relay.dev/docs/v10.1.3/query-renderer)
+* [Relay docs: Architecture Overview](https://relay.dev/docs/v10.1.3/architecture-overview#core-modules)
