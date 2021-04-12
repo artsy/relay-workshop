@@ -2,7 +2,7 @@
 
 [Relay](https://relay.dev/docs/v10.1.3/) is a powerful GraphQL client. At Artsy we use it in both our [web app](https://github.com/artsy/force) and [mobile app](https://github.com/artsy/eigen). 
 
-Relay is also complex and difficult to learn. This project contains exercises to help you learn Relay[*](#which-version-of-relay-are-we-learning) by introducing concepts a little bit at a time. 
+Relay is also complex and difficult to learn - but it's totally worth it! This project contains exercises to help you learn Relay[*](#which-version-of-relay-are-we-learning) by introducing concepts a little bit at a time. 
 
 ## Get Started
 
