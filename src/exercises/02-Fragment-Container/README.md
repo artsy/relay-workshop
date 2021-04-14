@@ -83,7 +83,7 @@ export const Artist2: React.FC<Artist2Props> = ({ artist }) => {
 
 Each of these section components emits some data from the `artist` prop passed in. 
 
-This style of component isolation is a is a common and powerful way to build a React app. Each component includes all the markup, styles, and interaction logic it needs. This is great for reusability, and even greater for comprehensibility.
+This style of component isolation is a common and powerful way to build a React app. Each component includes all the markup, styles, and interaction logic it needs. This is great for reusability, and even greater for comprehensibility.
 
 One thing is missing from each of these components though — a specification of the data it needs to render properly. That's currently handled entirely in the [`Artist2QueryRenderer`](./Artist2QueryRenderer.tsx), where _all_ fields for _all_ components are aggregated: 
 

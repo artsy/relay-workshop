@@ -170,7 +170,7 @@ The `render` prop is a function that will be called to render the child componen
 ```
 _./Artist1.tsx_
 
-After saving, you should finally see artist info on the artist page! 
+After saving, you should finally see artist info on the artist page! If you see a type error, read on! We are about to address it.
 
 ![Artist page with hardcoded artist ID](./docs/3-hardcoded-artist-id.png)
 
