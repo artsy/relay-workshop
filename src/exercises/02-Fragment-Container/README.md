@@ -10,7 +10,7 @@ Building a React app requires intentional effort to isolate components. Markup, 
 
 Relay allows us to also precisely define the _data_ required to render each component in a tree, with Fragment Containers. 
 
-If a QueryRenderer is the top-level component of a tree that renders data, Fragment Containers define the contract each child component needs from the data. While there is a single QueryRenderer associated with each network request in our app, each request will retrieve the data for many Fragment Containers. 
+If a QueryRenderer is the top-level component of a tree that renders data, Fragment Containers define the contract each child component needs from the data. While there is a single QueryRenderer associated with each network request in our app, each request will retrieve the data for many Fragment Containers. Imagine the QueryRenderer as the tree and the Fragment Container as its branches.
 
 In this exercise we'll convert several small, isolated components into Fragment Containers, and specify the data each component requires. 
 
@@ -101,7 +101,7 @@ One thing is missing from each of these components though — a specification of
       `}
 ```
 
-This works...but it'd be great if we could specify these fields in the components that needed them. Then each component would tell a more comprehensive story about what's needed to render it. 
+This works, but it's an anti-pattern because it binds the child components data needs to its parent or grandparents. This not only gets in the way of making our components reusable, but also can make refactoring or scaling components tricky when we have to go a few levels up to find where data is coming from. It'd be great if we could specify these fields in the components that needed them. Then each component would tell a more comprehensive story about what's needed to render it. 
 
 Relay offers us Fragment Containers for exactly this purpose. Let's convert these child components to be Fragment Containers!
 
