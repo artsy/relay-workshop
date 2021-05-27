@@ -15,6 +15,8 @@
     "relay": "^0.8.0-1"
   },
   "scripts": {
+    "prepare": "husky install",
+    "prettier-write": "yarn run prettier --write",
     "relay": "relay-compiler --src ./src --schema src/graphql/schema/fakeArtsy.graphql  --extensions ts tsx --language typescript",
     "start-exercise-1": "yarn start-web",
     "start-exercises": "concurrently -n relay,web \"yarn relay --watch\" \"yarn start-web\"",
@@ -34,6 +36,8 @@
     "concurrently": "^5.3.0",
     "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0",
     "graphql-tag": "^2.11.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
     "miragejs": "^0.1.41",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.3.0",
@@ -48,5 +52,15 @@
     "semi": false,
     "singleQuote": false,
     "trailingComma": "es5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.*": [
+      "yarn prettier-write"
+    ]
   }
 }
