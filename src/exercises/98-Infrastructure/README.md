@@ -1,6 +1,6 @@
 # Coming soon!
 
-This exercise is in progress. 
+This exercise is in progress.
 
 ## Infrastructure - Store, Network Layer, Environment
 

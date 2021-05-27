@@ -1,12 +1,12 @@
-import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
-import { useParams } from 'react-router-dom';
-import { environment } from '../../relay';
-import { Artist3FragmentContainer } from './Artist3';
-import { Artist3QueryRendererQuery } from './__generated__/Artist3QueryRendererQuery.graphql';
+import React from "react"
+import { graphql, QueryRenderer } from "react-relay"
+import { useParams } from "react-router-dom"
+import { environment } from "../../relay"
+import { Artist3FragmentContainer } from "./Artist3"
+import { Artist3QueryRendererQuery } from "./__generated__/Artist3QueryRendererQuery.graphql"
 
 export const Artist3QueryRenderer = () => {
-  const { artistID } = useParams();
+  const { artistID } = useParams()
 
   return (
     <QueryRenderer<Artist3QueryRendererQuery>
@@ -21,10 +21,10 @@ export const Artist3QueryRenderer = () => {
       variables={{ artistID }}
       render={({ props }) => {
         if (!props || !props.artist) {
-          return <div>Loading</div>;
+          return <div>Loading</div>
         }
-        return <Artist3FragmentContainer artist={props.artist} />;
+        return <Artist3FragmentContainer artist={props.artist} />
       }}
     />
-  );
-};
+  )
+}

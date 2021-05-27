@@ -1,9 +1,9 @@
-import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
-import { Artist3Heading_artist } from './__generated__/Artist3Heading_artist.graphql';
+import React from "react"
+import { createFragmentContainer, graphql } from "react-relay"
+import { Artist3Heading_artist } from "./__generated__/Artist3Heading_artist.graphql"
 
 interface Artist3HeadingProps {
-  artist: Artist3Heading_artist;
+  artist: Artist3Heading_artist
 }
 
 export const Artist3Heading: React.FC<Artist3HeadingProps> = ({ artist }) => {
@@ -12,8 +12,8 @@ export const Artist3Heading: React.FC<Artist3HeadingProps> = ({ artist }) => {
       <h1>{artist.name}</h1>
       <h3>b. {artist.birthYear}</h3>
     </>
-  );
-};
+  )
+}
 
 export const Artist3HeadingFragmentContainer = createFragmentContainer(
   Artist3Heading,
@@ -25,4 +25,4 @@ export const Artist3HeadingFragmentContainer = createFragmentContainer(
       }
     `,
   }
-);
+)

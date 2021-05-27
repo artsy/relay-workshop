@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react"
 
 interface Artist2AuctionResultsProps {
   artist: {
-    auctionRecord: string;
-    auctionLotsSoldAnnually: string;
-  };
+    auctionRecord: string
+    auctionLotsSoldAnnually: string
+  }
 }
 
 export const Artist2AuctionResults: React.FC<Artist2AuctionResultsProps> = ({
@@ -20,5 +20,5 @@ export const Artist2AuctionResults: React.FC<Artist2AuctionResultsProps> = ({
         <dd>{artist.auctionLotsSoldAnnually}</dd>
       </dl>
     </>
-  );
-};
+  )
+}

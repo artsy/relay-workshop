@@ -1,9 +1,9 @@
-import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
-import { Artist3AuctionResults_artist } from './__generated__/Artist3AuctionResults_artist.graphql';
+import React from "react"
+import { createFragmentContainer, graphql } from "react-relay"
+import { Artist3AuctionResults_artist } from "./__generated__/Artist3AuctionResults_artist.graphql"
 
 interface Artist3AuctionResultsProps {
-  artist: Artist3AuctionResults_artist;
+  artist: Artist3AuctionResults_artist
 }
 
 export const Artist3AuctionResults: React.FC<Artist3AuctionResultsProps> = ({
@@ -19,8 +19,8 @@ export const Artist3AuctionResults: React.FC<Artist3AuctionResultsProps> = ({
         <dd>{artist.auctionLotsSoldAnnually}</dd>
       </dl>
     </>
-  );
-};
+  )
+}
 
 export const Artist3AuctionResultsFragmentContainer = createFragmentContainer(
   Artist3AuctionResults,
@@ -32,4 +32,4 @@ export const Artist3AuctionResultsFragmentContainer = createFragmentContainer(
       }
     `,
   }
-);
+)

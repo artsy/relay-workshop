@@ -32,40 +32,42 @@ This app renders a list of artists.
 
 ![The app for this exercise, running in a browser](./docs/0-app-at-start.png)
 
-When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page emits the artist's ID. 
+When you click on an artist's name, it takes you to a new URL with the artist ID in the path. The page emits the artist's ID.
 
 ![The artist page for this exercise, running in a browser](./docs/1-artist-page-at-start.png)
 
-There are two components responsible for rendering the artist detail page: 
+There are two components responsible for rendering the artist detail page:
 
 1: [The Artist1 component](./Artist1.tsx) renders the UI. It's currently emitting a heading with the artist's ID, based on the `artist` prop passed into the component:
 
 ```typescript
-export const Artist1: React.FC<Artist1Props> = (props) => {
+export const Artist1: React.FC<Artist1Props> = props => {
   return (
     <div>
       <h1> artist {props.artist.artistID} </h1>
     </div>
-  );
-};
+  )
+}
 ```
+
 _./Artist1.tsx_
 
 2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on it:
 
 ```typescript
 export const Artist1QueryRenderer = () => {
-  const { artistID } = useParams();
+  const { artistID } = useParams()
   const artist = {
     artistID,
-  };
+  }
 
-  return <Artist1 artist={artist} />;
-};
+  return <Artist1 artist={artist} />
+}
 ```
+
 _./Artist1QueryRenderer.tsx_
 
-Note that `useParams` is a hook from `react-router-dom` that extracts the artistID from the path. 
+Note that `useParams` is a hook from `react-router-dom` that extracts the artistID from the path.
 
 ### Render some artist data
 
@@ -76,16 +78,17 @@ An artist ID doesn't mean much to a user. Let's update this page to show actual 
 💻 _Update [the Artist1](./Artist1.tsx) component to render the artist name and birth year from props:_
 
 ```typescript
-  return (
-    <div>
-      <h1>{props.artist.name}</h1>
-      <h2>b. {props.artist.birthYear}</h2>
-    </div>
-  );
+return (
+  <div>
+    <h1>{props.artist.name}</h1>
+    <h2>b. {props.artist.birthYear}</h2>
+  </div>
+)
 ```
+
 _./Artist1.tsx_
 
-Save the file, and you should see that we're not displaying anything useful on the artist detail screen: 
+Save the file, and you should see that we're not displaying anything useful on the artist detail screen:
 
 ![The artist detail screen showing no useful text](./docs/2-artist-screen-not-useful.png)
 
@@ -98,9 +101,10 @@ We're going to modify our Artist1QueryRenderer to use a Relay `<QueryRenderer>` 
 💻 _Add import statements for some dependencies to Artist1QueryRenderer:_
 
 ```typescript
-import { graphql, QueryRenderer } from 'react-relay';
-import { environment } from '../../relay';
+import { graphql, QueryRenderer } from "react-relay"
+import { environment } from "../../relay"
 ```
+
 _./Artist1QueryRenderer.tsx_
 
 `QueryRenderer` is the component we'll use to connect our component to the GraphQL endpoint; `graphql` helps us specify the GraphQL query that should be made.
@@ -110,25 +114,26 @@ We'll talk about the `environment` dependency in an upcoming exercise. For now y
 💻 _Update the Artist1QueryRenderer component to return a QueryRenderer:_
 
 ```typescript
-  return (
-    <QueryRenderer
-      environment={environment}
-      query={graphql`
-        query Artist1QueryRendererQuery {
-          artist(id: 1) {
-            name
-            birthYear
-          }
+return (
+  <QueryRenderer
+    environment={environment}
+    query={graphql`
+      query Artist1QueryRendererQuery {
+        artist(id: 1) {
+          name
+          birthYear
         }
-      `}
-      variables={{}}
-      render={() => <Artist1 artist={artist} />}
-    />
-  );
+      }
+    `}
+    variables={{}}
+    render={() => <Artist1 artist={artist} />}
+  />
+)
 ```
+
 _./Artist1QueryRenderer.tsx_
 
-This doesn't give us exactly what we want, but it's the simplest QueryRenderer we can emit. When you save, you shouldn't see any changes on the artist page. 
+This doesn't give us exactly what we want, but it's the simplest QueryRenderer we can emit. When you save, you shouldn't see any changes on the artist page.
 
 Let's work through the props we're passing into this `QueryRenderer`.
 
@@ -138,7 +143,7 @@ As mentioned above, this will get covered in more detail later, but the `environ
 
 ##### `` query=graphql`...` ``
 
-The `query` argument is the query we want to execute against our GraphQL endpoint. 
+The `query` argument is the query we want to execute against our GraphQL endpoint.
 
 For now, our query is requesting the `name` and `birthYear` of the `artist` with `id:1`. We'll correct that hard-coded artist ID soon!
 
@@ -152,7 +157,7 @@ This is an easy mistake to make — expect to encounter this error many times wi
 
 ##### `variables={{}}`
 
-The `variables` prop takes an object containing variables to pass into the query. For now we're passing an empty object. 
+The `variables` prop takes an object containing variables to pass into the query. For now we're passing an empty object.
 
 ##### `render={() => <Artist1 artist={artist}>}`
 
@@ -168,6 +173,7 @@ The `render` prop is a function that will be called to render the child componen
     return <Artist1 artist={props.artist} />;
   }}
 ```
+
 _./Artist1.tsx_
 
 After saving, you should finally see artist info on the artist page! If you see a type error, read on! We are about to address it.
@@ -200,6 +206,7 @@ import { Artist1QueryRendererQuery } from "./__generated__/Artist1QueryRendererQ
     />
   );
 ```
+
 _./Artist1QueryRenderer.tsx_
 
 Now we should no longer have any type errors. Red squigglies are gone! 🎉
@@ -218,6 +225,7 @@ When we render this component for the first time we won't have an artist because
     return <Artist1 artist={props.artist} />;
   }}
 ```
+
 _./Artist1QueryRenderer.tsx_
 
 If you refresh the page you'll notice that while the network is resolving we display a loading indicator.
@@ -226,7 +234,7 @@ If you refresh the page you'll notice that while the network is resolving we dis
 
 #### Pass arguments to the query
 
-Our GraphQL query has the artist ID hardcoded: 
+Our GraphQL query has the artist ID hardcoded:
 
 ```graphql
   artist(id: 1) {
@@ -234,6 +242,7 @@ Our GraphQL query has the artist ID hardcoded:
     birthYear
   }
 ```
+
 _./Artist1QueryRenderer.tsx_
 
 This results in the same artist always showing, no matter which artist page we're on. Let's fix this.
@@ -245,53 +254,56 @@ Arguments can be passed into the `query` of a `QueryRenderer` through the `varia
 💻 _Add a variable to the `query` prop named `artistID`:_
 
 ```typescript
-    <QueryRenderer<Artist1QueryRendererQuery>
-      // ...
-      query={graphql`
+<QueryRenderer<Artist1QueryRendererQuery>
+  // ...
+  query={graphql`
         query Artist1QueryRendererQuery($artistID: ID!) {
           artist(id: $artistID) {
             // ...
           }
         }
       `}
-      // ...
-    />
+  // ...
+/>
 ```
+
 _./Artist1QueryRenderer.tsx_
 
-Notice that we add the variable to the top-level `query` as well as the `artist` type we're querying. 
+Notice that we add the variable to the top-level `query` as well as the `artist` type we're querying.
 
 At this point you'll get a type error on the `variables` prop. This is because the query is expecting a property named `artistID` on the `variables` argument.
 
 💻 _Add a hardcoded `artistID` to the `variables` prop:_
 
 ```typescript
-    <QueryRenderer<Artist1QueryRendererQuery>
-      // ...
-      variables={{artistID: '1'}}
-      // ...
-    />
+<QueryRenderer<Artist1QueryRendererQuery>
+  // ...
+  variables={{ artistID: "1" }}
+  // ...
+/>
 ```
+
 _./Artist1QueryRenderer.tsx_
 
 Save and refresh and you'll see...not much is different. We merely moved the hardcoded value from one place to another.
 
 But! Now that we're passing the `artistID` _into_ the `QueryRenderer`, we can pass whatever we want — like the ID from the current route!
 
-##### Step 2: Grab value of variable from route 
+##### Step 2: Grab value of variable from route
 
-We're already grabbing the artistID from the route params. We need to pass it into our query. 
+We're already grabbing the artistID from the route params. We need to pass it into our query.
 
 💻 _Replace the hardcoded `artistID` variable with the value from the route parameter:_
 
 ```typescript
-    <QueryRenderer<Artist1QueryRendererQuery>
-      // ...
-      // pass the artistID variable we extracted from the route:
-      variables={{artistID}}
-      // ...
-    />
+<QueryRenderer<Artist1QueryRendererQuery>
+  // ...
+  // pass the artistID variable we extracted from the route:
+  variables={{ artistID }}
+  // ...
+/>
 ```
+
 _./Artist1QueryRenderer.tsx_
 
 Now when we visit [Kehinde Wiley's page](http://localhost:1234/exercise-1/artist/3) we see his info! 🕺💃
@@ -304,11 +316,11 @@ In this exercise we connected our React component to our GraphQL endpoint with a
 
 When our component first renders, our `QueryRenderer`'s `render` prop gets called, with empty `props`. This paints a `Loading` indicator to the screen.
 
-Meanwhile, Relay makes a network request to our GraphQL endpoint. It passes the `query` and `variables` props from our `QueryRenderer` to the GraphQL server. 
+Meanwhile, Relay makes a network request to our GraphQL endpoint. It passes the `query` and `variables` props from our `QueryRenderer` to the GraphQL server.
 
-When the server responds, the `QueryRenderer` calls the `render` prop again, this time with `props` loaded from the network response. This renders our component tree, hydrated with data. 
+When the server responds, the `QueryRenderer` calls the `render` prop again, this time with `props` loaded from the network response. This renders our component tree, hydrated with data.
 
-In day-to-day development with Relay, you'll work with QueryRenderers occasionally — typically when you're adding a new page or screen, or when you need a test or storybook to connect a component to GraphQL data. 
+In day-to-day development with Relay, you'll work with QueryRenderers occasionally — typically when you're adding a new page or screen, or when you need a test or storybook to connect a component to GraphQL data.
 
 ## Recommendations
 
@@ -318,12 +330,12 @@ Each QueryRenderer is associated with one request to our GraphQL server. As we c
 The correct approach to this situation is to associate the child components with something called a Fragment Container — which we'll learn about [in the next exercise](../02-Fragment-Container/README.md).
 
 > As React components, QueryRenderers can be rendered anywhere that a React component can be rendered, i.e. not just at the top level but within other components or containers; for example, to lazily fetch additional data for a popover.
-> 
+>
 > However, a QueryRenderer will not start loading its data until it is mounted, so nested QueryRenderer components can lead to request waterfalls if used unnecessarily.
 
 _Source: [Relay docs: QueryRenderer](https://relay.dev/docs/v10.1.3/query-renderer)_
 
 ## Resources
 
-* [Relay docs: QueryRenderer](https://relay.dev/docs/v10.1.3/query-renderer)
-* [Relay docs: Architecture Overview](https://relay.dev/docs/v10.1.3/architecture-overview#core-modules)
+- [Relay docs: QueryRenderer](https://relay.dev/docs/v10.1.3/query-renderer)
+- [Relay docs: Architecture Overview](https://relay.dev/docs/v10.1.3/architecture-overview#core-modules)

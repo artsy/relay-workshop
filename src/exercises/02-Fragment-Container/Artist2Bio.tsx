@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react"
 
 interface Artist2BioProps {
   artist: {
-    bio: string;
-  };
+    bio: string
+  }
 }
 
 export const Artist2Bio: React.FC<Artist2BioProps> = ({ artist }) => {
@@ -12,5 +12,5 @@ export const Artist2Bio: React.FC<Artist2BioProps> = ({ artist }) => {
       <h3>Bio</h3>
       <p>{artist.bio}</p>
     </>
-  );
-};
+  )
+}
