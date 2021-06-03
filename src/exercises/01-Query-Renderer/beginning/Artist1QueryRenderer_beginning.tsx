@@ -4,9 +4,9 @@
 
 // export const Artist1QueryRenderer = () => {
 //   const { artistID } = useParams();
-//   const artist = {
+//   const dummyArtist = {
 //     artistID,
 //   };
 
-//   return <Artist1 artist={artist} />;
+//   return <Artist1 artist={dummyArtist} />;
 // };

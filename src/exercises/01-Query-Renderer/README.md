@@ -54,16 +54,16 @@ export const Artist1: React.FC<Artist1Props> = props => {
 
 _./Artist1.tsx_
 
-2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on it:
+2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on the dummy artist object:
 
 ```typescript
 export const Artist1QueryRenderer = () => {
   const { artistID } = useParams()
-  const artist = {
+  const dummyArtist = {
     artistID,
   }
 
-  return <Artist1 artist={artist} />
+  return <Artist1 artist={dummyArtist} />
 }
 ```
 
@@ -128,7 +128,7 @@ return (
       }
     `}
     variables={{}}
-    render={() => <Artist1 artist={artist} />}
+    render={() => <Artist1 artist={dummyArtist} />}
   />
 )
 ```
@@ -163,9 +163,11 @@ The `variables` prop takes an object containing variables to pass into the query
 
 ##### `render={() => <Artist1 artist={artist}>}`
 
-The `render` prop is a function that will be called to render the child component tree. For now we're telling it to render an `Artist1` component using the `artist` object we constructed from the URL params. We're not passing the artist from the server response yet. This explains why we still don't see anything useful on our artist detail page.
+The `render` prop is a function that will be called to render the child component tree. The argument to that function is an object that includes props, among other things. `props` is destructured from the `render` prop function's argument.
 
-💻 _Update the `render` prop to pass the artist from the resolved query, if it exists:_
+For now we're telling it to render an `Artist1` component using the `artist` object we constructed from the URL params. We're not passing the artist from the server response yet. This explains why we still don't see anything useful on our artist detail page.
+
+💻 _Update the `render` prop to pass the artist from the resolved query as a prop if it exists instead of from the dummy object:_
 
 ```typescript
   render={({ props }) => {
