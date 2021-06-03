@@ -149,13 +149,17 @@ The `query` argument is the query we want to execute against our GraphQL endpoin
 
 For now, our query is requesting the `name` and `birthYear` of the `artist` with `id:1`. We'll correct that hard-coded artist ID soon!
 
-Relay is very particular about the names you give queries. Try changing the name of the query from `Artist1QueryRendererQuery` to `Artist1QueryRendererQueryyyyyy` and see what happens in your console:
+Relay is very particular about the names you give queries. 
+
+💻 _Try changing the name of the query from `Artist1QueryRendererQuery` to `Artist1QueryRendererQueryyyyyy` and see what happens in your console:_
 
 ```
 [relay] Parse error: Error: RelayFindGraphQLTags: Operation names in graphql tags must be prefixed with the module name and end in "Mutation", "Query", or "Subscription". Got `Artist1QueryRendererQueryyyyyy` in module `Artist1QueryRenderer`. in "exercises/01-Query-Renderer/Artist1QueryRenderer.tsx"
 ```
 
 This is an easy mistake to make — expect to encounter this error many times with Relay 😅.
+
+💻 _Change `Artist1QueryRendererQueryyyyyy` back to `Artist1QueryRendererQuery`._
 
 ##### `variables={{}}`
 
