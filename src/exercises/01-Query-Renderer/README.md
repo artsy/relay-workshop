@@ -170,7 +170,7 @@ The `render` prop is a function that will be called to render the child componen
 ```typescript
   render={({ props }) => {
     if (!props || !props.artist) {
-      return;
+      return null;
     }
     return <Artist1 artist={props.artist} />;
   }}
