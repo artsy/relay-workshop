@@ -39,3 +39,7 @@ These exercises are for [Relay Modern](https://relay.dev/docs/v10.1.3/new-in-rel
 These exercises have been built in support of new engineers at Artsy; thus they are based on code that looks like ours. Relay recently released version 11, including hooks, but neither [Artsy's web app](https://github.com/artsy/force) nor [mobile app](https://github.com/artsy/eigen) are running it yet.
 
 When our codebase is updated to use a newer version of Relay, we'll update these exercises as well.
+
+### What do I do if I run into roadblocks?
+
+There are `Common Mistakes` listed at the bottom of many of the instructions, so be sure to check those out if you run into roadblocks. If you still are blocked, open an issue.
