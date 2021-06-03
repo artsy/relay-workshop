@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import { Exercise } from '../Exercise';
-import { Artist1QueryRenderer } from './Artist1QueryRenderer';
+import React from "react"
+import { Link, Route, Switch } from "react-router-dom"
+import { Exercise } from "../Exercise"
+import { Artist1QueryRenderer } from "./Artist1QueryRenderer"
 
 export const Exercise1 = () => {
   return (
@@ -18,8 +18,8 @@ export const Exercise1 = () => {
         </Route>
       </Switch>
     </Exercise>
-  );
-};
+  )
+}
 
 const ArtistList = () => {
   return (
@@ -34,5 +34,5 @@ const ArtistList = () => {
         <Link to="/exercise-1/artist/3">Kehinde Wiley</Link>
       </li>
     </ul>
-  );
-};
+  )
+}

@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Exercise0 } from './exercises/00-Relay-Compiler/Exercise0';
-import { Exercise1 } from './exercises/01-Query-Renderer/Exercise1';
-import { Exercise2 } from './exercises/02-Fragment-Container/Exercise2';
-import { Exercise3 } from './exercises/03-Testing-Queries/Exercise3';
-import Home from './Home';
-import Nav from './Nav';
+import React from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Exercise0 } from "./exercises/00-Relay-Compiler/Exercise0"
+import { Exercise1 } from "./exercises/01-Query-Renderer/Exercise1"
+import { Exercise2 } from "./exercises/02-Fragment-Container/Exercise2"
+import { Exercise3 } from "./exercises/03-Testing-Queries/Exercise3"
+import Home from "./Home"
+import Nav from "./Nav"
 
 const App: React.FC = () => {
   return (
@@ -15,8 +15,8 @@ const App: React.FC = () => {
         <Routes />
       </Switch>
     </Router>
-  );
-};
+  )
+}
 
 const Routes: React.FC = () => {
   return (
@@ -37,7 +37,7 @@ const Routes: React.FC = () => {
         <Home />
       </Route>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

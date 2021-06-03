@@ -1,12 +1,12 @@
-import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
-import { Artist3AuctionResultsFragmentContainer } from './Artist3AuctionResults';
-import { Artist3BioFragmentContainer } from './Artist3Bio';
-import { Artist3HeadingFragmentContainer } from './Artist3Heading';
-import { Artist3_artist } from './__generated__/Artist3_artist.graphql';
+import React from "react"
+import { createFragmentContainer, graphql } from "react-relay"
+import { Artist3AuctionResultsFragmentContainer } from "./Artist3AuctionResults"
+import { Artist3BioFragmentContainer } from "./Artist3Bio"
+import { Artist3HeadingFragmentContainer } from "./Artist3Heading"
+import { Artist3_artist } from "./__generated__/Artist3_artist.graphql"
 
 interface Artist3Props {
-  artist: Artist3_artist;
+  artist: Artist3_artist
 }
 
 export const Artist3: React.FC<Artist3Props> = ({ artist }) => {
@@ -18,8 +18,8 @@ export const Artist3: React.FC<Artist3Props> = ({ artist }) => {
       <hr />
       <Artist3AuctionResultsFragmentContainer artist={artist} />
     </div>
-  );
-};
+  )
+}
 
 export const Artist3FragmentContainer = createFragmentContainer(Artist3, {
   artist: graphql`
@@ -29,4 +29,4 @@ export const Artist3FragmentContainer = createFragmentContainer(Artist3, {
       ...Artist3AuctionResults_artist
     }
   `,
-});
+})

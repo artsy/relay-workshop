@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react"
 
 interface ExerciseProps {
-  number: number;
-  name: string;
+  number: number
+  name: string
 }
 
 export const Exercise: React.FC<ExerciseProps> = ({
@@ -17,5 +17,5 @@ export const Exercise: React.FC<ExerciseProps> = ({
       </h1>
       {children}
     </>
-  );
-};
+  )
+}

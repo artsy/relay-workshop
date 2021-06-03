@@ -6,11 +6,11 @@
 
 _Source: [Introduction to Relay](https://relay.dev/docs/v10.1.3/)_
 
-All modern JavaScript web apps face the challenge of managing data effectively and performantly. Relay is a library that addresses this problem for React apps. 
+All modern JavaScript web apps face the challenge of managing data effectively and performantly. Relay is a library that addresses this problem for React apps.
 
-Relay allows us to specify the data needed for each component _within each component_. This makes for a nice developer experience because the data is defined right next to the code rendering it. 
+Relay allows us to specify the data needed for each component _within each component_. This makes for a nice developer experience because the data is defined right next to the code rendering it.
 
-Independently querying for the data that each component needs would be terribly inefficient. To address this, Relay aggregates the data needed for all components in a tree into one top-level query — so one network request is made for _all_ the required data on the page. 
+Independently querying for the data that each component needs would be terribly inefficient. To address this, Relay aggregates the data needed for all components in a tree into one top-level query — so one network request is made for _all_ the required data on the page.
 
 At build-time, Relay's compiler inspects the component tree to discover all data needed, and generates the appropriate infrastructure to execute optimized GraphQL queries at runtime.
 
@@ -30,46 +30,47 @@ View the app for this exercise in a browser:
 
 ### Orient yourself
 
-This app renders information about an artist. 
+This app renders information about an artist.
 
 ![The app for this exercise, running in a browser](./docs/exercise0.png)
 
-The component rendering the artist information is [the Artist0 component](./Artist0.tsx). It [emits the artist name](./Artist0.tsx#L10-L14): 
+The component rendering the artist information is [the Artist0 component](./Artist0.tsx). It [emits the artist name](./Artist0.tsx#L10-L14):
 
 ```tsx
-  return (
-    <div>
-      <h1>{props.artist.name}</h1>
-    </div>
-  );
+return (
+  <div>
+    <h1>{props.artist.name}</h1>
+  </div>
+)
 ```
+
 _Artist0.tsx, lines 10-14_
 
-The component is connected to Relay (don't worry about _how_ yet). It queries for data on the `Artist` type of our GraphQL schema by defining [a query fragment](./Artist0.tsx#L19-L21): 
+The component is connected to Relay (don't worry about _how_ yet). It queries for data on the `Artist` type of our GraphQL schema by defining [a query fragment](./Artist0.tsx#L19-L21):
 
 ```graphql
-  fragment Artist0_artist on Artist {
-    name
-  }
+fragment Artist0_artist on Artist {
+  name
+}
 ```
+
 _Artist0.tsx, lines 19-21_
 
-The Relay compiler inspects fragments like this one to generate the infrastructure it needs to efficiently query our GraphQL endpoint at runtime. 
-
+The Relay compiler inspects fragments like this one to generate the infrastructure it needs to efficiently query our GraphQL endpoint at runtime.
 
 ### Enhance the Artist0 component
 
 It'd be nice if our users could see the artist's year of birth in addition to their name. Lucky for us: our GraphQL schema exposes that data for us! In addition to `id` and `name`, [the `Artist` type defined in our schema also holds a `birthYear` property](../../graphql/schema/fakeArtsy.graphql#L5-L9):
 
 ```graphql
-  type Artist {
-    id: ID!
-    name: String!
-    birthYear: Int!
-  }
+type Artist {
+  id: ID!
+  name: String!
+  birthYear: Int!
+}
 ```
-_src/graphql/schema/fakeArtsy.graphql, lines 5-9_
 
+_src/graphql/schema/fakeArtsy.graphql, lines 5-9_
 
 We want to update our component to query and emit this field.
 
@@ -80,11 +81,12 @@ Start by adding the `birthYear` property to the GraphQL query fragment.
 💻 _Add `birthYear` to [line 21 in the Artist0 component](./Artist0.tsx#L21):_
 
 ```graphql
-  fragment Artist0_artist on Artist {
-    name
-    birthYear
-  }
+fragment Artist0_artist on Artist {
+  name
+  birthYear
+}
 ```
+
 _Artist0.tsx, lines 19-22_
 
 Then we'll need to render the field in the React component.
@@ -92,26 +94,27 @@ Then we'll need to render the field in the React component.
 💻 _Add a line to render the `birthYear` field in [the Artist0 component](./Artist0.tsx#L13):_
 
 ```typescript
-  return (
-    <div>
-      <h1>{props.artist.name}</h1>
-      <h2>b. {props.artist.birthYear}</h2>
-    </div>
-  );
+return (
+  <div>
+    <h1>{props.artist.name}</h1>
+    <h2>b. {props.artist.birthYear}</h2>
+  </div>
+)
 ```
+
 _Artist0.tsx, lines 10-15_
 
 💻 _Save the Artist0.tsx file._
 
 Your browser should auto-refresh. You should see.....
 
-A place for the birth year to display, but no actual birth year. 
+A place for the birth year to display, but no actual birth year.
 
 ![No birth year showing yet](./docs/no-birth-year.png)
 
-### 🤔 Why doesn't this work? 
+### 🤔 Why doesn't this work?
 
-We added the field to the component, and the GraphQL query...but Relay hasn't compiled this new field into its runtime infrastructure. Relay needs to aggregate all the requested data at build-time, so that it knows the proper query to send to the server. Our app is not requesting this new field from GraphQL yet because the Relay compiler hasn't included it yet. 
+We added the field to the component, and the GraphQL query...but Relay hasn't compiled this new field into its runtime infrastructure. Relay needs to aggregate all the requested data at build-time, so that it knows the proper query to send to the server. Our app is not requesting this new field from GraphQL yet because the Relay compiler hasn't included it yet.
 
 Let's fix this!
 
@@ -127,35 +130,35 @@ This shouldn't take long to run, and the output shouldn't contain any errors. Wh
 
 ### What did the Relay compiler do?
 
-You might have noticed a `__generated__` subfolder in `./src/exercises/00-Relay-Compiler`. This folder contains all the infrastructure generated by the Relay compiler — everything it needs to query our GraphQL endpoint at runtime. 
+You might have noticed a `__generated__` subfolder in `./src/exercises/00-Relay-Compiler`. This folder contains all the infrastructure generated by the Relay compiler — everything it needs to query our GraphQL endpoint at runtime.
 
 There's a file in here named [`Artist0_artist.graphql.ts`](__generated__/Artist0_artist.graphql.ts). If we look inside, we'll find a couple changes that Relay made when we ran the compiler:
 
 #### Relay added the new field to the query that will be used at runtime.
 
-Toward the bottom of [`Artist0_artist.graphql.ts`](__generated__/Artist0_artist.graphql.ts#L20-L43) you'll see a variable named `node` defined. This defines the shape of the query that Relay will be making for this component at runtime, and it now contains the field we added: 
+Toward the bottom of [`Artist0_artist.graphql.ts`](__generated__/Artist0_artist.graphql.ts#L20-L43) you'll see a variable named `node` defined. This defines the shape of the query that Relay will be making for this component at runtime, and it now contains the field we added:
 
 ```typescript
 const node: ReaderFragment = {
   // ....
-  "name": "Artist0_artist",
+  name: "Artist0_artist",
   // ....
-  "selections": [
+  selections: [
     // ....
     {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "birthYear",
-      "storageKey": null
-    }
+      alias: null,
+      args: null,
+      kind: "ScalarField",
+      name: "birthYear",
+      storageKey: null,
+    },
   ],
-  "type": "Artist",
-    // ....
-};
+  type: "Artist",
+  // ....
+}
 ```
-_\_\_generated\_\_/Artist0_artist.graphql.ts, lines 20-43_
 
+_\_\_generated\_\_/Artist0_artist.graphql.ts, lines 20-43_
 
 #### Relay added the new field to the associated types.
 
@@ -171,29 +174,29 @@ Once we ran the compiler, the error went away because the property had been adde
 
 ```typescript
 export type Artist0_artist = {
-    readonly name: string;
-    readonly birthYear: number;
-    readonly " $refType": "Artist0_artist";
-};
+  readonly name: string
+  readonly birthYear: number
+  readonly " $refType": "Artist0_artist"
+}
 ```
+
 _\_\_generated\_\_/Artist0_artist.graphql.ts, lines 7-11_
 
 > _Note: VS Code sometimes holds on to these type errors even after you've compiled Relay. Reloading the VS Code window can fix this._
-
 
 ## Wrapping up
 
 In this exercise, we added a new property to an existing Relay-connected component. We saw how the component didn't render our new field until after we ran the Relay compiler. We also looked at the artifacts generated by the Relay compiler.
 
-In day-to-day development with Relay, adding or removing fields from Relay-connected components is a frequent activity. Inspecting the artifacts generated by the Relay compiler is a much less frequent activity — most useful for debugging and other scenarios where things aren't working as expected. 
+In day-to-day development with Relay, adding or removing fields from Relay-connected components is a frequent activity. Inspecting the artifacts generated by the Relay compiler is a much less frequent activity — most useful for debugging and other scenarios where things aren't working as expected.
 
 ## Recommendations
 
 ### Run Relay compilation automatically
 
-Watch for changes and automatically run Relay compilation by including the `--watch` flag in your npm/yarn development task. We excluded it for this exercise so that you were in control of running compilation. 
+Watch for changes and automatically run Relay compilation by including the `--watch` flag in your npm/yarn development task. We excluded it for this exercise so that you were in control of running compilation.
 
-The remaining exercises are configured to automatically run Relay compilation when you make changes. You won't need to run it manually anymore. 
+The remaining exercises are configured to automatically run Relay compilation when you make changes. You won't need to run it manually anymore.
 
 ## Resources
 

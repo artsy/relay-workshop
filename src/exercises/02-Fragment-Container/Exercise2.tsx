@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import { NavList, NavListItem } from '../../shared/NavList';
-import { Exercise } from '../Exercise';
-import { Artist2QueryRenderer } from './Artist2QueryRenderer';
+import React from "react"
+import { Link, Route, Switch } from "react-router-dom"
+import { NavList, NavListItem } from "../../shared/NavList"
+import { Exercise } from "../Exercise"
+import { Artist2QueryRenderer } from "./Artist2QueryRenderer"
 export const Exercise2 = () => {
   return (
     <Exercise number={2} name="FragmentContainer">
@@ -18,8 +18,8 @@ export const Exercise2 = () => {
         </Route>
       </Switch>
     </Exercise>
-  );
-};
+  )
+}
 
 const ArtistList = () => {
   return (
@@ -34,5 +34,5 @@ const ArtistList = () => {
         <Link to="/exercise-2/artist/3">Kehinde Wiley</Link>
       </NavListItem>
     </NavList>
-  );
-};
+  )
+}
