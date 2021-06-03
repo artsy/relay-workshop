@@ -22,6 +22,8 @@ Start the app:
 
 💻 _Run `yarn start-exercises` from a console pointed at the root of this project_
 
+Note: if you get an error when running this command that you need `watchman` installed, install it with `brew install watchman` and retry.
+
 View the app for this exercise in a browser:
 
 💻 _Visit [localhost:1234/exercise-1](http://localhost:1234/exercise-1)_

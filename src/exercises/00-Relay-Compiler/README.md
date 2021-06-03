@@ -198,6 +198,8 @@ Watch for changes and automatically run Relay compilation by including the `--wa
 
 The remaining exercises are configured to automatically run Relay compilation when you make changes. You won't need to run it manually anymore.
 
+Note: if you get an error when starting watch mode that you need `watchman` installed, install it with `brew install watchman` and retry.
+
 ## Resources
 
 The [Thinking In Relay](https://relay.dev/docs/v10.1.3/thinking-in-relay) doc is a great resource for understanding how Relay efficiently renders data from a GraphQL endpoint.
