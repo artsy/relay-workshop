@@ -22,7 +22,7 @@ In this exercise we'll see how the Relay compiler generates the artifacts it nee
 
 Start the app:
 
-💻 _Run `yarn start-exercise-1` from a console pointed at the root of this project_
+💻 _Run `yarn start-exercise-0` from a console pointed at the root of this project_
 
 View the app for this exercise in a browser:
 
