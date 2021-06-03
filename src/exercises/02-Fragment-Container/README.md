@@ -12,7 +12,7 @@ Relay allows us to also precisely define the _data_ required to render each comp
 
 If a QueryRenderer is the top-level component of a tree that renders data, Fragment Containers define the contract each child component needs from the data. While there is a single QueryRenderer associated with each network request in our app, each request will retrieve the data for many Fragment Containers. Imagine the QueryRenderer as the tree and the Fragment Container as its branches.
 
-In this exercise we'll convert several small, isolated components into Fragment Containers, and specify the data each component requires.
+🎯 In this exercise we'll convert several small, isolated components into Fragment Containers, and specify the data each component requires.
 
 ## Exercise 2: Isolating specified data with a Fragment Container
 

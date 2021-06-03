@@ -12,7 +12,7 @@ Therefore we must emit a QueryRenderer for any tree of components that we want t
 
 A QueryRenderer takes two critical arguments: a query to execute against the GraphQL endpoint, and the React component to render once the data is retrieved.
 
-In this exercise we'll create a new page in our app and use a QueryRenderer to show data from our GraphQL endpoint.
+🎯 In this exercise we'll create a new page in our app and use a QueryRenderer to show data from our GraphQL endpoint.
 
 ## Exercise 1: Rendering data with a QueryRenderer
 

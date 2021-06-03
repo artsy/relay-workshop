@@ -14,7 +14,7 @@ Independently querying for the data that each component needs would be terribly 
 
 At build-time, Relay's compiler inspects the component tree to discover all data needed, and generates the appropriate infrastructure to execute optimized GraphQL queries at runtime.
 
-In this exercise we'll see how the Relay compiler generates the artifacts it needs to make efficient data requests.
+🎯 In this exercise we'll see how the Relay compiler generates the artifacts it needs to make efficient data requests.
 
 ## Exercise 0: Compiling with Relay
 
