@@ -14,7 +14,7 @@ Independently querying for the data that each component needs would be terribly 
 
 At build-time, Relay's compiler inspects the component tree to discover all data needed, and generates the appropriate infrastructure to execute optimized GraphQL queries at runtime.
 
-In this exercise we'll see how the Relay compiler generates the artifacts it needs to make efficient data requests.
+🎯 In this exercise we'll see how the Relay compiler generates the artifacts it needs to make efficient data requests.
 
 ## Exercise 0: Compiling with Relay
 
@@ -22,7 +22,7 @@ In this exercise we'll see how the Relay compiler generates the artifacts it nee
 
 Start the app:
 
-💻 _Run `yarn start-exercise-1` from a console pointed at the root of this project_
+💻 _Run `yarn start-exercise-0` from a console pointed at the root of this project_
 
 View the app for this exercise in a browser:
 
@@ -197,6 +197,8 @@ In day-to-day development with Relay, adding or removing fields from Relay-conne
 Watch for changes and automatically run Relay compilation by including the `--watch` flag in your npm/yarn development task. We excluded it for this exercise so that you were in control of running compilation.
 
 The remaining exercises are configured to automatically run Relay compilation when you make changes. You won't need to run it manually anymore.
+
+Note: if you get an error when starting watch mode that you need `watchman` installed, install it with `brew install watchman` and retry.
 
 ## Resources
 

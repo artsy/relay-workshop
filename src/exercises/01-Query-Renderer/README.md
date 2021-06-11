@@ -12,7 +12,7 @@ Therefore we must emit a QueryRenderer for any tree of components that we want t
 
 A QueryRenderer takes two critical arguments: a query to execute against the GraphQL endpoint, and the React component to render once the data is retrieved.
 
-In this exercise we'll create a new page in our app and use a QueryRenderer to show data from our GraphQL endpoint.
+🎯 In this exercise we'll create a new page in our app and use a QueryRenderer to show data from our GraphQL endpoint.
 
 ## Exercise 1: Rendering data with a QueryRenderer
 
@@ -21,6 +21,8 @@ In this exercise we'll create a new page in our app and use a QueryRenderer to s
 Start the app:
 
 💻 _Run `yarn start-exercises` from a console pointed at the root of this project_
+
+Note: if you get an error when running this command that you need `watchman` installed, install it with `brew install watchman` and retry.
 
 View the app for this exercise in a browser:
 
@@ -52,16 +54,16 @@ export const Artist1: React.FC<Artist1Props> = props => {
 
 _./Artist1.tsx_
 
-2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on it:
+2: [The Artist1QueryRenderer component](./Artist1QueryRenderer.tsx) is the entry point to this page. It extracts the artist ID from the current path, and renders the Artist1 UI component based on the dummy artist object:
 
 ```typescript
 export const Artist1QueryRenderer = () => {
   const { artistID } = useParams()
-  const artist = {
+  const dummyArtist = {
     artistID,
   }
 
-  return <Artist1 artist={artist} />
+  return <Artist1 artist={dummyArtist} />
 }
 ```
 
@@ -126,7 +128,7 @@ return (
       }
     `}
     variables={{}}
-    render={() => <Artist1 artist={artist} />}
+    render={() => <Artist1 artist={dummyArtist} />}
   />
 )
 ```
@@ -147,7 +149,9 @@ The `query` argument is the query we want to execute against our GraphQL endpoin
 
 For now, our query is requesting the `name` and `birthYear` of the `artist` with `id:1`. We'll correct that hard-coded artist ID soon!
 
-Relay is very particular about the names you give queries. Try changing the name of the query from `Artist1QueryRendererQuery` to `Artist1QueryRendererQueryyyyyy` and see what happens in your console:
+Relay is very particular about the names you give queries. 
+
+💻 _Try changing the name of the query from `Artist1QueryRendererQuery` to `Artist1QueryRendererQueryyyyyy` and see what happens in your console:_
 
 ```
 [relay] Parse error: Error: RelayFindGraphQLTags: Operation names in graphql tags must be prefixed with the module name and end in "Mutation", "Query", or "Subscription". Got `Artist1QueryRendererQueryyyyyy` in module `Artist1QueryRenderer`. in "exercises/01-Query-Renderer/Artist1QueryRenderer.tsx"
@@ -155,20 +159,24 @@ Relay is very particular about the names you give queries. Try changing the name
 
 This is an easy mistake to make — expect to encounter this error many times with Relay 😅.
 
+💻 _Change `Artist1QueryRendererQueryyyyyy` back to `Artist1QueryRendererQuery`._
+
 ##### `variables={{}}`
 
 The `variables` prop takes an object containing variables to pass into the query. For now we're passing an empty object.
 
 ##### `render={() => <Artist1 artist={artist}>}`
 
-The `render` prop is a function that will be called to render the child component tree. For now we're telling it to render an `Artist1` component using the `artist` object we constructed from the URL params. We're not passing the artist from the server response yet. This explains why we still don't see anything useful on our artist detail page.
+The `render` prop is a function that will be called to render the child component tree. The argument to that function is an object that includes props, among other things. `props` is destructured from the `render` prop function's argument.
 
-💻 _Update the `render` prop to pass the artist from the resolved query, if it exists:_
+For now we're telling it to render an `Artist1` component using the `artist` object we constructed from the URL params. We're not passing the artist from the server response yet. This explains why we still don't see anything useful on our artist detail page.
+
+💻 _Update the `render` prop to pass the artist from the resolved query as a prop if it exists instead of from the dummy object:_
 
 ```typescript
   render={({ props }) => {
     if (!props || !props.artist) {
-      return;
+      return null;
     }
     return <Artist1 artist={props.artist} />;
   }}
