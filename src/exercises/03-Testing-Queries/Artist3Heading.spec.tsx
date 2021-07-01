@@ -2,22 +2,61 @@ import React from "react"
 import { render } from "@testing-library/react"
 import { QueryRenderer } from "react-relay"
 import { MockPayloadGenerator, createMockEnvironment } from "relay-test-utils"
-import { GraphQLTaggedNode, OperationType } from "relay-runtime"
-import { MockResolvers } from "relay-test-utils/lib/RelayMockPayloadGenerator"
-import { DumbArtist3Heading } from "./Artist3Heading"
+import { graphql } from "relay-runtime"
+import {
+  Artist3Heading,
+  Artist3HeadingFragmentContainer,
+  Artist3HeadingProps,
+} from "./Artist3Heading"
+import { Artist3HeadingTestQuery } from "./__generated__/Artist3HeadingTestQuery.graphql"
 
-describe("Artist3Heading", () => {
-  const props = {
+it("Artist3Heading (silly)", () => {
+  const props: Artist3HeadingProps = {
     artist: {
       name: "Andy Warhol",
+      birthYear: 123,
+      " $refType": "Artist3Heading_artist",
     },
   }
 
-  const { container, getByText } = render(<DumbArtist3Heading {...props} />)
+  const { queryAllByText } = render(<Artist3Heading {...props} />)
 
-  it("has props", () => {
-    const dumbArtistComponent = getByText("Andy Warhol")
-    
-    expect(dumbArtistComponent).toHaveLength(1)
-  })
+  const header = queryAllByText("Andy Warhol")
+  expect(header).toHaveLength(1)
+})
+
+it("Artist3Heading", () => {
+  const mockEnvironment = createMockEnvironment()
+
+  const { queryAllByText } = render(
+    <QueryRenderer<Artist3HeadingTestQuery>
+      environment={mockEnvironment}
+      query={graphql`
+        query Artist3HeadingTestQuery($artistID: ID!) {
+          artist(id: $artistID) {
+            ...Artist3Heading_artist
+          }
+        }
+      `}
+      variables={{ artistID: "wow" }}
+      render={({ props }) => {
+        if (!props || !props.artist) {
+          return <div>Loading</div>
+        }
+        return <Artist3HeadingFragmentContainer artist={props.artist} />
+      }}
+    />
+  )
+
+  mockEnvironment.mock.resolveMostRecentOperation(operation =>
+    MockPayloadGenerator.generate(operation, {
+      Artist: () => ({
+        name: "Andy Warhol",
+        birthYear: 123,
+      }),
+    })
+  )
+
+  const header = queryAllByText("Andy Warhol")
+  expect(header).toHaveLength(1)
 })

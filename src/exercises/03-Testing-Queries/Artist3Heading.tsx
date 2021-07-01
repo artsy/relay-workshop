@@ -2,7 +2,7 @@ import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
 import { Artist3Heading_artist } from "./__generated__/Artist3Heading_artist.graphql"
 
-interface Artist3HeadingProps {
+export interface Artist3HeadingProps {
   artist: Artist3Heading_artist
 }
 
@@ -15,9 +15,6 @@ export const Artist3Heading: React.FC<Artist3HeadingProps> = ({ artist }) => {
   )
 }
 
-export const DumbArtist3Heading: React.FC = (props) => {
-  return <div>{props.artist.name}</div>
-}
 
 export const Artist3HeadingFragmentContainer = createFragmentContainer(
   Artist3Heading,
