@@ -15,6 +15,10 @@ export const Artist3Heading: React.FC<Artist3HeadingProps> = ({ artist }) => {
   )
 }
 
+export const DumbArtist3Heading: React.FC = (props) => {
+  return <div>{props.artist.name}</div>
+}
+
 export const Artist3HeadingFragmentContainer = createFragmentContainer(
   Artist3Heading,
   {

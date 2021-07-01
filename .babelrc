@@ -1,4 +1,15 @@
 {
-  "presets": ["@babel/preset-react"],
+  "presets": [
+    "@babel/preset-react",
+    "@babel/preset-typescript",
+    [
+      "next/babel",
+      {
+        "preset-env": {
+          "modules": "commonjs"
+        }
+      }
+    ]
+  ],
   "plugins": ["relay"]
 }
