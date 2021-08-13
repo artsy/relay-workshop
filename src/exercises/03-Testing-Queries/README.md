@@ -1,4 +1,15 @@
-## Testing querying with Relay
+# Testing with Relay
+
+## Introduction
+
+We are using Jest, `relay-test-utils`, and React Testing Library to write unit tests for our components that use Relay. There are two main modules that we'll use in our tests (we'll go more into these later):
+
+- `createMockEnvironment`
+- `MockPayloadGenerator`
+- `QueryRenderer`
+
+Read more:
+[Relay docs: Testing Relay Components](https://relay.dev/docs/guides/testing-relay-components/)
 
 - introduce (at a high level) the tooling we'll use to write tests
 - look at existing tests in force/eigen/volt re: modern patterns for testing
