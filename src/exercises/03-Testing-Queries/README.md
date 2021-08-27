@@ -4,9 +4,14 @@
 
 So far we've built an app that queries data. As good dev citizens, we want to write some tests to make sure our app is displaying what we think it's displaying. This will help us prevent future regressions, as well as document our expectations of the system for future developers.
 
-We're going to use a couple tools ....
+We are using Jest, `relay-test-utils`, and React Testing Library to write unit tests for our components that use Relay. There are three main modules that we'll use in our tests (we'll go more into these later):
 
-- introduce (at a high level) the tooling we'll use to write tests
+- `createMockEnvironment`
+- `MockPayloadGenerator`
+- `QueryRenderer`
+
+Read more:
+[Relay docs: Testing Relay Components](https://relay.dev/docs/guides/testing-relay-components/)
 
 ## Exercise 3: Testing queries
 
