@@ -32,17 +32,37 @@ Start the tests:
 ### Test Artist3Heading in isolation
 
 - describe how we're isolating the test to not use Relay
-- guide them to write the silly test
+- guide them to write the silly test (test #1)
 - guidance: tell them when to use this kind of test, link them to some force examples, etc
 
-- look at existing tests in force/eigen/volt re: modern patterns for testing
-- testing at different levels
-  - _what_ do you want to mock? fragment container, parent, at what level?
-    - testing an entire query tree? (not sure yet but along the lines of an "end-to-end" test)
-    - testing a fragment container (mocking the fragment)
-    - UI component testing (nothing mocked, just props passed in a particular shape)
-      - $fragmentHref
-      - this can probably just be discussed, not hands-on
-- misc
-  - how is relay mocking data? probably some docs in the relay testing tools we can link to.
+### Test Artist3Heading connected to Relay
+
+- describe relay testing tools
+  - createMockEnvironment
+    - talk about distinction between this and the default environment
+  - resolveMostRecentOperation
+- help them build up to the fully mocked test (start close to the first test & add in all the mocking pieces one at a time - basically we don't want to scare them with a big test, we want to slowly guide them to it)
+  - createMockEnvironment
+  - QueryRenderer (this is the unique part of the test!)
+  - resolveMostRecentOperation
+- guidance:
+  - most of the paperwork/setup/infrastructure is usually abstracted so that the tests can focus on what makes them unique
   -
+
+## Wrapping up
+
+- summarize what we did in this exercise
+
+## Common mistakes
+
+- naming queries
+- different components in the tree using different relay environments (some of them the mock, some the default/real one)
+  - results in unpredictable/unreliable tests
+  - fix can be mocking `defaultEnvironment`
+
+## Resources
+
+- link to relay docs
+- link to force & eigen tests/PRs
+  - the environment issue that George ran into
+- how is relay mocking data? probably some docs in the relay testing tools we can link to.
