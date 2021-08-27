@@ -1,14 +1,4 @@
 // import React from "react"
-// import { render } from "@testing-library/react"
-// import { QueryRenderer } from "react-relay"
-// import { MockPayloadGenerator, createMockEnvironment } from "relay-test-utils"
-// import { graphql } from "relay-runtime"
-// import {
-//   Artist3Heading,
-//   Artist3HeadingFragmentContainer,
-//   Artist3HeadingProps,
-// } from "./Artist3Heading"
-// import { Artist3HeadingTestQuery } from "./__generated__/Artist3HeadingTestQuery.graphql"
 
 // describe("Artist3Heading", () => {
 //   describe("as an isolated component", () => {
