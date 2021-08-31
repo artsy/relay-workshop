@@ -46,7 +46,9 @@ We are going to write tests against the Artist3Heading component from the previo
 
 #### Artist3Heading tests
 
-We'll write two tests in this exercise. Both will confirm that the correct information is being rendered by the component, but we'll take two different approaches to the tests: completely isolated from Relay, and integrated with a mocked Relay store.
+We'll write two tests in this exercise. Both will confirm that the correct information is being rendered by the component, but we'll take two different approaches to the tests:
+1. Completely isolated from Relay
+2. Integrated with a mocked Relay store.
 
 We've stubbed out a file to hold these tests: Artist3Heading.spec.tsx.
 
