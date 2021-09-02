@@ -22,6 +22,7 @@
     "start-exercises": "concurrently -n relay,web \"yarn relay --watch\" \"yarn start-web\"",
     "start-web": "parcel src/index.html",
     "test": "jest",
+    "test:watch": "jest --watch",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
@@ -66,7 +67,6 @@
       "pre-commit": "lint-staged"
     }
   },
-
   "lint-staged": {
     "*.*": [
       "yarn prettier-write"
