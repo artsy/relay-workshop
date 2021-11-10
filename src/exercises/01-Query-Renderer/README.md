@@ -314,6 +314,52 @@ We're already grabbing the artistID from the route params. We need to pass it in
 
 _./Artist1QueryRenderer.tsx_
 
+The last step for relay to understand which variable you are passing is to pass the variable next to Artist1QueryRendererQuery like this:
+
+```typescript
+     query Artist1QueryRendererQuery(**$artistID: ID!**){ 
+        artist(**id: $artistID**){
+           name
+           birthYear
+         }
+     }
+```
+
+This is how the whole component should look like in the end:
+
+``` typescript
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { Artist1 } from './Artist1';
+
+export const Artist1QueryRenderer = () => {
+  const { artistID } = useParams();
+
+  return (
+    <QueryRenderer<Artist1QueryRendererQuery>
+      environment={environment}
+      query={graphql`
+        query Artist1QueryRendererQuery($artistID: ID!) {
+          artist(id: $artistID) {
+            name
+            birthYear
+          }
+        }
+      `}
+      variables={{ artistID }}
+      render={({ props }) => {
+        if (!props || !props.artist) {
+          return <div>Loading</div>;
+        }
+        return <Artist1 artist={props.artist} />;
+      }}
+    />
+  );
+};
+
+```
+
+
 Now when we visit [Kehinde Wiley's page](http://localhost:1234/exercise-1/artist/3) we see his info! 🕺💃
 
 ![The artist detail screen showing Kehinde's info](./docs/5-kehinde-wiley.png)
