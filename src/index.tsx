@@ -5,6 +5,6 @@ import { makeServer } from "./graphql/makeServer"
 
 window.addEventListener("DOMContentLoaded", () => {
   makeServer()
-
+  
   ReactDOM.render(<App />, document.getElementById("root"))
 })

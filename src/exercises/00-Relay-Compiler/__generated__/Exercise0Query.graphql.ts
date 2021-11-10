@@ -27,6 +27,7 @@ query Exercise0Query {
 
 fragment Artist0_artist on Artist {
   name
+  birthYear
 }
 */
 
@@ -90,6 +91,13 @@ return {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "birthYear",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "id",
             "storageKey": null
           }
@@ -99,12 +107,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c020f77065a11dc14d73d7bbf595d86c",
+    "cacheID": "8512f08098c079e805d684b590d03422",
     "id": null,
     "metadata": {},
     "name": "Exercise0Query",
     "operationKind": "query",
-    "text": "query Exercise0Query {\n  artist(id: 1) {\n    ...Artist0_artist\n    id\n  }\n}\n\nfragment Artist0_artist on Artist {\n  name\n}\n"
+    "text": "query Exercise0Query {\n  artist(id: 1) {\n    ...Artist0_artist\n    id\n  }\n}\n\nfragment Artist0_artist on Artist {\n  name\n  birthYear\n}\n"
   }
 };
 })();

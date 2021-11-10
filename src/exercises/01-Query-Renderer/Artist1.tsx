@@ -11,7 +11,9 @@ interface Artist1Props {
 export const Artist1: React.FC<Artist1Props> = props => {
   return (
     <div>
-      <h1> artist {props.artist.artistID} </h1>
+      <h1> artist id: {props.artist.artistID} </h1>
+      <h1> Name {props.artist.name} </h1>
+      <h1> year {props.artist.birthYear} </h1>
     </div>
   )
 }
