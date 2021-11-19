@@ -146,7 +146,7 @@ We're getting there! It looks like we need to add a few properties to our test `
 
 Recall that the `relay-compiler-language-typescript' plugin is generating TypeScript types for our Relay queries. One of the artifacts of this type generation is a property named `" $refType"` on any fragments in our Relay tree. Its value always identifies the fragment it's associated with.
 
-We can see the `" $refType"` for this type in `./**generated**/Artist3Heading_artist.graphql.ts#L10:
+We can see the `" $refType"` for this type in `./__generated__/Artist3Heading_artist.graphql.ts#L10`:
 
 ```typescript
 export type Artist3Heading_artist = {
