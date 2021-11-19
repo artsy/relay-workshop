@@ -12,7 +12,15 @@ import { Artist3HeadingTestQuery } from "./__generated__/Artist3HeadingTestQuery
 
 describe("Artist3Heading", () => {
   describe("as an isolated component", () => {
-    it("renders the values we give it", () => {})
+    it("renders the values we give it", () => {
+      const artist = {
+        name: "Andy Warhol",
+        birthYear: 1928,
+        " $refType": null,
+      }
+
+      render(<Artist3Heading artist={artist} />)
+    })
   })
 
   describe("as a Relay fragmentContainer", () => {
