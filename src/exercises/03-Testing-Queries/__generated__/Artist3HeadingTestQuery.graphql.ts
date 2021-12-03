@@ -4,9 +4,7 @@
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type Artist3HeadingTestQueryVariables = {
-    artistID: string;
-};
+export type Artist3HeadingTestQueryVariables = {};
 export type Artist3HeadingTestQueryResponse = {
     readonly artist: {
         readonly " $fragmentRefs": FragmentRefs<"Artist3Heading_artist">;
@@ -20,10 +18,8 @@ export type Artist3HeadingTestQuery = {
 
 
 /*
-query Artist3HeadingTestQuery(
-  $artistID: ID!
-) {
-  artist(id: $artistID) {
+query Artist3HeadingTestQuery {
+  artist(id: "pablo-picasso") {
     ...Artist3Heading_artist
     id
   }
@@ -38,28 +34,21 @@ fragment Artist3Heading_artist on Artist {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "artistID"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
+    "kind": "Literal",
     "name": "id",
-    "variableName": "artistID"
+    "value": "pablo-picasso"
   }
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "Artist3HeadingTestQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v0/*: any*/),
         "concreteType": "Artist",
         "kind": "LinkedField",
         "name": "artist",
@@ -71,7 +60,7 @@ return {
             "name": "Artist3Heading_artist"
           }
         ],
-        "storageKey": null
+        "storageKey": "artist(id:\"pablo-picasso\")"
       }
     ],
     "type": "Root",
@@ -79,13 +68,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
     "name": "Artist3HeadingTestQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v0/*: any*/),
         "concreteType": "Artist",
         "kind": "LinkedField",
         "name": "artist",
@@ -113,19 +102,19 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": null
+        "storageKey": "artist(id:\"pablo-picasso\")"
       }
     ]
   },
   "params": {
-    "cacheID": "f41fbdcc1d45ff6943c852e4db5d95ca",
+    "cacheID": "9097d8f32b0e5105fd0af6a1266cced5",
     "id": null,
     "metadata": {},
     "name": "Artist3HeadingTestQuery",
     "operationKind": "query",
-    "text": "query Artist3HeadingTestQuery(\n  $artistID: ID!\n) {\n  artist(id: $artistID) {\n    ...Artist3Heading_artist\n    id\n  }\n}\n\nfragment Artist3Heading_artist on Artist {\n  name\n  birthYear\n}\n"
+    "text": "query Artist3HeadingTestQuery {\n  artist(id: \"pablo-picasso\") {\n    ...Artist3Heading_artist\n    id\n  }\n}\n\nfragment Artist3Heading_artist on Artist {\n  name\n  birthYear\n}\n"
   }
 };
 })();
-(node as any).hash = '317cb738d1b6f5f8a55a1b339844c5dc';
+(node as any).hash = '2e8aa6d6eb9b05909a0c361a4203fe95';
 export default node;

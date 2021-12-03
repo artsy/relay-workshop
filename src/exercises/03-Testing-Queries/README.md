@@ -107,23 +107,63 @@ We'll use this `mockEnvironment` in our next step.
 
 #### Render a test QueryRenderer
 
-sjhsjhsjh here
-
-- `render` and RTL (don't worry about queryAllByText yet)
-
-💻 _Import the dependencies we'll need to render the Artist3HeadingFragmentContainer in our test_
+First we need to import all the necessary dependencies.
 
 ```typescript
+import { graphql, QueryRenderer } from "react-relay"
 import { render } from "@testing-library/react"
 import { Artist3HeadingFragmentContainer } from "./Artist3Heading"
+import { Artist3HeadingTestQuery } from "./__generated__/Artist3HeadingTestQuery.graphql"
 ```
 
-- start with the query
-- variables (are they even necessary?)
-- render
-- <Artist3HeadingTestQuery>
+We will start by using `render` from `@testing-library/react` to render a `QueryRenderer`. `render` gives us back some utilities for asserting that our component renders the way we expect it to. For now, let call it `root`.
 
-at this stage, we're rendering the query renderer! But it's not actually rendering our Artist3HeadingFragmentContainer -- because our mock Relay environment hasn't simulated a response from the server yet.
+Within the `render` call, we will add a `QueryRenderer`, with its required props.
+
+The first prop, `environment`, is the one that will take the `mockEnvironment` we created earlier.
+
+The second prop, `query`, is the GraphQL query we want to test. We will fill in this prop later.
+
+The third prop, `variables`, takes the required variables we need to pass to the query. In our case, we don't need any, but we do need to pass an empty object, since `variables` is a required prop.
+
+The last prop, `render` (not to be confused with `render` from `@testing-library/react`), is a function that takes the response from the GraphQL query and renders the component. For now, we only render the a `div`.
+
+```typescript
+it("renders the values from the Relay query", () => {
+  const mockEnvironment = createMockEnvironment()
+
+  const root = render(
+    <QueryRenderer<Artist3HeadingTestQuery>
+      environment={mockEnvironment}
+      query={graphql``}
+      variables={{}}
+      render={({ props }) => {
+        return <div>tests are fun</div>
+      }}
+    />
+)
+```
+
+Running the test at this point will produce errors, something along the line of `GraphQLError: relay-workshop/src/exercises/03-Testing-Queries/Artist3Heading.spec.tsx: Syntax Error: Unexpected <EOF>.`. The reason for this error is that the `graphql` function expects a correct query, and the empty string is not one. So let's make that query correct.
+
+```typescript
+query={graphql`
+  query Artist3HeadingTestQuery {
+    artist(id: "pablo-picasso") {
+      ...Artist3Heading_artist
+    }
+  }
+`}
+```
+
+Now, using this full query, we should be able to get further. If you named that query something different, you might have gotten an error from relay along the lines of
+```
+Parse error: Error: RelayFindGraphQLTags: Operation names in graphql tags must be prefixed with the module name and end in "Mutation", "Query", or "Subscription". Got `CoolNameTest` in module `Artist3Heading`. in "exercises/03-Testing-Queries/Artist3Heading.spec.tsx"
+```
+Relay has strict naming rules, that we have to follow. Therefore, we will name this query `Artist3HeadingTestQuery`.
+
+At this point, the GraphQLError is no longer appearing, and the test is green. It's not yet testing what we want it to test. Let's mock the response first, and then we will render the actual `Artist3HeadingFragmentContainer` component.
+
 
 #### Mock (and resolve) a GraphQL server response
 
@@ -135,6 +175,11 @@ at this stage, we're rendering the query renderer! But it's not actually renderi
   - As soon as this resolves, our query renderer gets the mock response.
 
 Now we've got the component rendering our mock response — let's make sure it's rendering properly!
+
+// TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
+
+// MAYBE WE NEED THIS TEXT: At this point, the GraphQLError is no longer appearing, but we will get an error like `TypeError: Cannot read property 'artist' of null`. This last error, is because the `Artist3HeadingFragmentContainer` component expects an `artist` prop. Initially, `props` is null, so `props.artist` is not valid.
+
 
 #### Assert that the mocked artist is rendered properly
 
@@ -201,13 +246,13 @@ The [`render` method from React Testing Library](https://testing-library.com/doc
 
 The Artist3Heading is the component we're going to render 😀.
 
-💻 _Update the "renders the values we give it" test to render our `Artist3Heading` component:_
+💻 _Update the "renders the values from the Relay query" test to render our `Artist3Heading` component:_
 
 ```typescript
 // ...
 
 describe("as an isolated component", () => {
-  it("renders the values we give it", () => {
+  it("renders the values from the Relay query", () => {
     render(<Artist3Heading />)
   })
 })
@@ -225,11 +270,11 @@ Property 'artist' is missing in type '{}' but required in type 'Artist3HeadingPr
 
 We can use this type error to guide us in building up the appropriate test props. In this case, it's telling us that we need to pass in an artist. Let's pass an empty object to get a little further.
 
-💻 _Update the "renders the values we give it" test to pass an empty artist to the `Artist3Heading` component:_
+💻 _Update the "renders the values from the Relay query" test to pass an empty artist to the `Artist3Heading` component:_
 
 ```typescript
 describe("as an isolated component", () => {
-  it("renders the values we give it", () => {
+  it("renders the values from the Relay query", () => {
     const artist = {}
 
     render(<Artist3Heading artist={artist} />)
@@ -264,11 +309,11 @@ This tells us what value we'll use for this property in our test artist: `"Artis
 
 Let's fill in the properties of our test artist so that our component renders properly.
 
-💻 _Update the "renders the values we give it" test to pass a complete `artist` object:_
+💻 _Update the "renders the values from the Relay query" test to pass a complete `artist` object:_
 
 ```typescript
 describe("as an isolated component", () => {
-  it("renders the values we give it", () => {
+  it("renders the values from the Relay query", () => {
     const artist = {
       name: "Andy Warhol",
       birthYear: 1928,
