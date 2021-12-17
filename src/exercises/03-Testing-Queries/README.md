@@ -168,6 +168,79 @@ At this point, the GraphQLError is no longer appearing, and the test is green. I
 
 #### Mock (and resolve) a GraphQL server response
 
+First step is to import `MockPayloadGenerator`, so we add
+```ts
+import { MockPayloadGenerator } from "relay-test-utils"
+```
+
+Next, we specify the body of the mock response.
+```ts
+mockEnvironment.mock.resolveMostRecentOperation(operation =>
+  MockPayloadGenerator.generate(operation, {
+    Artist: () => ({
+      name: "Pablo Picasso",
+      birthYear: 123,
+    }),
+  })
+)
+```
+
+The query in the `QueryRenderer` is expecting a body that has a key named `artist` with an value like `Artist3Heading_artist`. That, basically, is an object with keys `name` and `birthYear`. So our mocked response will have a body of
+```ts
+{
+  artist: {
+    name: "Pablo Picasso",
+    birthYear: 123,
+  }
+}
+```
+To specify that body we use `MockPayloadGenerator.generate`, which takes two arguments. The second one is the object above, but modified to match the relay "API". For more info, look [here](https://relay.dev/docs/guides/testing-relay-components/).
+
+The last part of this is to actually resolve the query. We do this by calling `mockEnvironment.mock.resolveMostRecentOperation`. This function will resolve the most recent operation that was passed to it. In our case, that's the query from our `Artist3HeadingTestQuery`.
+
+At this point, the test should be green. Once again, it's not yet testing what we want. We still need to render the `Artist3HeadingFragmentContainer`. Let's do that right now.
+
+We had a simple `render` function with just a `div`, now let's bring in the `Artist3HeadingFragmentContainer`.
+
+```ts
+render={({ props }) => {
+  return <Artist3HeadingFragmentContainer artist={props.artist} />
+}}
+```
+
+At this point the test will turn red with an error like `TypeError: Cannot read property 'artist' of null`. This is because at the time of first rendering, the `props` object is null. That's because the `resolveMostRecentOperation` has not resolved the operation yet. This test is simulating a network request, so imagine that our first render is taking place while we are still waiting for the response from the server.
+
+To address this, let's add some checks.
+
+```ts
+render={({ props }) => {
+  if (!props) {
+    return null
+  }
+  return <Artist3HeadingFragmentContainer artist={props.artist} />
+}}
+```
+
+Tadaa! Our test is green, and this time it's actually rendering our component with a mocked response!
+
+
+
+note: we left off here
+
+
+
+TODO: explain that usually what we do is
+  if (!props || !props.artist) {
+            return <div>Loading</div>
+          }
+
+
+TODO: add the final
+//     const header = queryAllByText("Andy Warhol")
+//     expect(header).toHaveLength(1)
+in the test
+
+
 - MockPayloadGenerator.generate
   - auto-mocks all the fields for us!!!
   - let's specify a couple to make the response deterministic (and our test more predictable)
@@ -179,7 +252,6 @@ Now we've got the component rendering our mock response — let's make sure it's
 
 ---
 
-note: we left off here
 
 // TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
 
