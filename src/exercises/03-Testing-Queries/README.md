@@ -157,13 +157,14 @@ query={graphql`
 ```
 
 Now, using this full query, we should be able to get further. If you named that query something different, you might have gotten an error from relay along the lines of
+
 ```
 Parse error: Error: RelayFindGraphQLTags: Operation names in graphql tags must be prefixed with the module name and end in "Mutation", "Query", or "Subscription". Got `CoolNameTest` in module `Artist3Heading`. in "exercises/03-Testing-Queries/Artist3Heading.spec.tsx"
 ```
+
 Relay has strict naming rules, that we have to follow. Therefore, we will name this query `Artist3HeadingTestQuery`.
 
 At this point, the GraphQLError is no longer appearing, and the test is green. It's not yet testing what we want it to test. Let's mock the response first, and then we will render the actual `Artist3HeadingFragmentContainer` component.
-
 
 #### Mock (and resolve) a GraphQL server response
 
@@ -176,10 +177,13 @@ At this point, the GraphQLError is no longer appearing, and the test is green. I
 
 Now we've got the component rendering our mock response — let's make sure it's rendering properly!
 
+---
+
+note: we left off here
+
 // TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
 
 // MAYBE WE NEED THIS TEXT: At this point, the GraphQLError is no longer appearing, but we will get an error like `TypeError: Cannot read property 'artist' of null`. This last error, is because the `Artist3HeadingFragmentContainer` component expects an `artist` prop. Initially, `props` is null, so `props.artist` is not valid.
-
 
 #### Assert that the mocked artist is rendered properly
 
