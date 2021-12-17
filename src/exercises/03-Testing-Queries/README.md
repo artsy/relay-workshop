@@ -4,7 +4,9 @@
 
 So far we've built an app that queries data. As good dev citizens, we want to write some tests to make sure our app is displaying what we think it's displaying. This will help us prevent future regressions, as well as document our expectations of the system for future developers.
 
-We are going to use [Jest][jest], [`relay-test-utils`][relay-test-utils], and [React Testing Library][react-testing-library] to write unit tests for our components that use Relay. There are three main Relay modules that we'll use in our tests (we'll go more into these later):
+When we test our Relay components at Artsy, we typically test at the FragmentContainer level. [It is possible to test at the QueryRenderer level](https://relay.dev/docs/guides/testing-relay-components/#relay-component-test), but those are essentially integration tests of multiple fragments, and we typically get just as much value out of testing in a slightly more isolated manner. This exercise will demonstrate testing at the FragmentContainer level.
+
+We are going to use [Jest][jest], [`relay-test-utils`][relay-test-utils], and [React Testing Library][react-testing-library] to write a unit test for a FragmentContainer. There are three main Relay modules that we'll use in our tests (we'll go more into these later):
 
 - `createMockEnvironment`
 - `MockPayloadGenerator`
@@ -46,32 +48,182 @@ We are going to write tests against the Artist3Heading component from the previo
 
 #### Artist3Heading tests
 
-We'll write two tests in this exercise. Both will confirm that the correct information is being rendered by the component, but we'll take two different approaches to the tests:
+We're going to write one test in this exercise. It will confirm that the correct information is being rendered by the component. The test will be integrated with a mocked Relay store.
 
-1. Completely isolated from Relay
-2. Integrated with a mocked Relay store.
+We've stubbed out a file to hold this test: Artist3Heading.spec.tsx.
 
-We've stubbed out a file to hold these tests: Artist3Heading.spec.tsx.
-
-For now, this file contains a single import, and a set of Jest test scenarios stubbed out:
+For now, this file contains a single import, and a Jest test scenario stubbed out:
 
 ```tsx
 import React from "react"
 
 describe("Artist3Heading", () => {
-  describe("as an isolated component", () => {
-    it("renders the values we give it", () => {})
-  })
-
-  describe("as a Relay fragmentContainer", () => {
-    it("renders the values from the Relay query", () => {})
-  })
+  it("renders the values from the Relay query", () => {})
 })
 ```
 
 _./Artist3Heading.spec.tsx_
 
-We're going to fill in these test scenarios!
+We're going to fill in this test scenario!
+
+### Test the Artist3HeadingFragmentContainer component
+
+The test we'll write will do this:
+
+TODO: add links to the bottom sections that correspond to each of these
+
+1. Create a mock Relay environment so that we can mock a server response
+2. Render a test QueryRenderer that emits the Artist3HeadingFragmentContainer component
+3. Resolve the most recent GraphQL operation with a mock response, to simulate the server responding to our Relay query
+4. Assert that the mocked artist name appears in the rendered component
+
+This will give us confidence that when our component is rendered in a real environment, it will display the values from our GraphQL endpoint that we expect it to.
+
+#### Mock the Relay environment
+
+The [Relay environment](https://relay.dev/docs/glossary/#environment) is an object that sits at the top of a Relay-connected app. All Relay components in an app need an environment defined. The environment provides the infrastructure that Relay needs to manage network requests and responses against your GraphQL server.
+
+In production code, the Relay environment communicates with a live GraphQL server. If we tried to write tests using this live connection, they'd be unpredictable and flaky. The `createMockEnvironment` helper from `react-test-utils` allows us to mock out a Relay environment that doesn't actually communicate with a server — empowering us to write predictable tests.
+
+All tests written in a Relay app will use `createMockEnvironment`. Often we abstract this so that not every test has to instantiate the mock environment, but for the sake of our tests, we're going to do it inline. (TODO: link to force/eigen abstractions that mask it)
+
+💻 _Import the dependencies we'll need to mock the Relay environment in our test_
+
+```typescript
+import { createMockEnvironment } from "relay-test-utils"
+```
+
+_./Artist3Heading.spec.tsx_
+
+💻 _Create a mock Relay environment for our test to use_
+
+```typescript
+it("renders the values from the Relay query", () => {
+  const mockEnvironment = createMockEnvironment()
+})
+```
+
+We'll use this `mockEnvironment` in our next step.
+
+#### Render a test QueryRenderer
+
+First we need to import all the necessary dependencies.
+
+```typescript
+import { graphql, QueryRenderer } from "react-relay"
+import { render } from "@testing-library/react"
+import { Artist3HeadingFragmentContainer } from "./Artist3Heading"
+import { Artist3HeadingTestQuery } from "./__generated__/Artist3HeadingTestQuery.graphql"
+```
+
+We will start by using `render` from `@testing-library/react` to render a `QueryRenderer`. `render` gives us back some utilities for asserting that our component renders the way we expect it to. For now, let call it `root`.
+
+Within the `render` call, we will add a `QueryRenderer`, with its required props.
+
+The first prop, `environment`, is the one that will take the `mockEnvironment` we created earlier.
+
+The second prop, `query`, is the GraphQL query we want to test. We will fill in this prop later.
+
+The third prop, `variables`, takes the required variables we need to pass to the query. In our case, we don't need any, but we do need to pass an empty object, since `variables` is a required prop.
+
+The last prop, `render` (not to be confused with `render` from `@testing-library/react`), is a function that takes the response from the GraphQL query and renders the component. For now, we only render the a `div`.
+
+```typescript
+it("renders the values from the Relay query", () => {
+  const mockEnvironment = createMockEnvironment()
+
+  const root = render(
+    <QueryRenderer<Artist3HeadingTestQuery>
+      environment={mockEnvironment}
+      query={graphql``}
+      variables={{}}
+      render={({ props }) => {
+        return <div>tests are fun</div>
+      }}
+    />
+)
+```
+
+Running the test at this point will produce errors, something along the line of `GraphQLError: relay-workshop/src/exercises/03-Testing-Queries/Artist3Heading.spec.tsx: Syntax Error: Unexpected <EOF>.`. The reason for this error is that the `graphql` function expects a correct query, and the empty string is not one. So let's make that query correct.
+
+```typescript
+query={graphql`
+  query Artist3HeadingTestQuery {
+    artist(id: "pablo-picasso") {
+      ...Artist3Heading_artist
+    }
+  }
+`}
+```
+
+Now, using this full query, we should be able to get further. If you named that query something different, you might have gotten an error from relay along the lines of
+
+```
+Parse error: Error: RelayFindGraphQLTags: Operation names in graphql tags must be prefixed with the module name and end in "Mutation", "Query", or "Subscription". Got `CoolNameTest` in module `Artist3Heading`. in "exercises/03-Testing-Queries/Artist3Heading.spec.tsx"
+```
+
+Relay has strict naming rules, that we have to follow. Therefore, we will name this query `Artist3HeadingTestQuery`.
+
+At this point, the GraphQLError is no longer appearing, and the test is green. It's not yet testing what we want it to test. Let's mock the response first, and then we will render the actual `Artist3HeadingFragmentContainer` component.
+
+#### Mock (and resolve) a GraphQL server response
+
+- MockPayloadGenerator.generate
+  - auto-mocks all the fields for us!!!
+  - let's specify a couple to make the response deterministic (and our test more predictable)
+- resolveMostRecentOperation
+  - provided by our `mockEnvironment`
+  - As soon as this resolves, our query renderer gets the mock response.
+
+Now we've got the component rendering our mock response — let's make sure it's rendering properly!
+
+---
+
+note: we left off here
+
+// TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
+
+// MAYBE WE NEED THIS TEXT: At this point, the GraphQLError is no longer appearing, but we will get an error like `TypeError: Cannot read property 'artist' of null`. This last error, is because the `Artist3HeadingFragmentContainer` component expects an `artist` prop. Initially, `props` is null, so `props.artist` is not valid.
+
+#### Assert that the mocked artist is rendered properly
+
+- The call we made to `render()` returned a whole bunch of useful methods for inspecting and interacting with our rendered component
+  - link to them in docs
+  - one of them is `queryAllByText`
+- `queryAllByText("Andy Warhol")`
+- `expect(header).toHaveLength(1)`
+
+### Celebrate!!!
+
+## Wrapping up
+
+- summarize what we did in this exercise
+
+## Guidance
+
+- most of the paperwork/setup/infrastructure is usually abstracted so that the tests can focus on what makes them unique
+
+## Common mistakes
+
+- naming queries
+- different components in the tree using different relay environments (some of them the mock, some the default/real one)
+  - results in unpredictable/unreliable tests
+  - fix can be mocking `defaultEnvironment`
+
+## Resources
+
+- link to relay docs
+- link to force & eigen tests/PRs
+  - the environment issue that George ran into
+- how is relay mocking data? probably some docs in the relay testing tools we can link to.
+
+[jest]: TODO
+[relay-test-utils]: TODO
+[react-testing-library]: https://testing-library.com/docs/react-testing-library/intro
+
+---
+
+!!!! These are old but possibly useful docs from when I still thought it was a good idea to teach them a way of writing tests that we don't really do. I'm only leaving them here right now in case I want to borrow some of the words.
 
 ### Test Artist3Heading in isolation
 
@@ -98,13 +250,13 @@ The [`render` method from React Testing Library](https://testing-library.com/doc
 
 The Artist3Heading is the component we're going to render 😀.
 
-💻 _Update the "renders the values we give it" test to render our `Artist3Heading` component:_
+💻 _Update the "renders the values from the Relay query" test to render our `Artist3Heading` component:_
 
 ```typescript
 // ...
 
 describe("as an isolated component", () => {
-  it("renders the values we give it", () => {
+  it("renders the values from the Relay query", () => {
     render(<Artist3Heading />)
   })
 })
@@ -122,11 +274,11 @@ Property 'artist' is missing in type '{}' but required in type 'Artist3HeadingPr
 
 We can use this type error to guide us in building up the appropriate test props. In this case, it's telling us that we need to pass in an artist. Let's pass an empty object to get a little further.
 
-💻 _Update the "renders the values we give it" test to pass an empty artist to the `Artist3Heading` component:_
+💻 _Update the "renders the values from the Relay query" test to pass an empty artist to the `Artist3Heading` component:_
 
 ```typescript
 describe("as an isolated component", () => {
-  it("renders the values we give it", () => {
+  it("renders the values from the Relay query", () => {
     const artist = {}
 
     render(<Artist3Heading artist={artist} />)
@@ -161,11 +313,11 @@ This tells us what value we'll use for this property in our test artist: `"Artis
 
 Let's fill in the properties of our test artist so that our component renders properly.
 
-💻 _Update the "renders the values we give it" test to pass a complete `artist` object:_
+💻 _Update the "renders the values from the Relay query" test to pass a complete `artist` object:_
 
 ```typescript
 describe("as an isolated component", () => {
-  it("renders the values we give it", () => {
+  it("renders the values from the Relay query", () => {
     const artist = {
       name: "Andy Warhol",
       birthYear: 1928,
@@ -185,39 +337,3 @@ You should see no remaining type errors! 🎉 And a passing test! 🎉
 
 - guide them to write the silly test (test #1)
 - guidance: tell them when to use this kind of test, link them to some force examples, etc
-
-### Test Artist3Heading connected to Relay
-
-- describe relay testing tools
-  - createMockEnvironment
-    - talk about distinction between this and the default environment
-  - resolveMostRecentOperation
-- help them build up to the fully mocked test (start close to the first test & add in all the mocking pieces one at a time - basically we don't want to scare them with a big test, we want to slowly guide them to it)
-  - createMockEnvironment
-  - QueryRenderer (this is the unique part of the test!)
-  - resolveMostRecentOperation
-- guidance:
-  - most of the paperwork/setup/infrastructure is usually abstracted so that the tests can focus on what makes them unique
-  -
-
-## Wrapping up
-
-- summarize what we did in this exercise
-
-## Common mistakes
-
-- naming queries
-- different components in the tree using different relay environments (some of them the mock, some the default/real one)
-  - results in unpredictable/unreliable tests
-  - fix can be mocking `defaultEnvironment`
-
-## Resources
-
-- link to relay docs
-- link to force & eigen tests/PRs
-  - the environment issue that George ran into
-- how is relay mocking data? probably some docs in the relay testing tools we can link to.
-
-[jest]: TODO
-[relay-test-utils]: TODO
-[react-testing-library]: https://testing-library.com/docs/react-testing-library/intro
