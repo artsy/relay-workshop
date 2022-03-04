@@ -156,6 +156,8 @@ query={graphql`
 `}
 ```
 
+todo: something about how we're spreading in a fragment, like we learned in the queryrenderer/fragment container exercises.
+
 Now, using this full query, we should be able to get further. If you named that query something different, you might have gotten an error from relay along the lines of
 
 ```
@@ -168,30 +170,103 @@ At this point, the GraphQLError is no longer appearing, and the test is green. I
 
 #### Mock (and resolve) a GraphQL server response
 
-- MockPayloadGenerator.generate
-  - auto-mocks all the fields for us!!!
-  - let's specify a couple to make the response deterministic (and our test more predictable)
-- resolveMostRecentOperation
-  - provided by our `mockEnvironment`
-  - As soon as this resolves, our query renderer gets the mock response.
+React/Relay apps are asynchronous by nature — the components in our app initially render in a "loading" state at first, and when the network requests for data complete, the app re-renders with the loaded data passed in as props. This is useful to remember when looking at a test of a Relay component — we can render the component, as we have already, without actually simulating any network requests. When we do this, we shouldn't expect that any data is populated on the component.
 
-Now we've got the component rendering our mock response — let's make sure it's rendering properly!
+To actually test that data is being populated properly, we need to render the component _and then simulate a network request resolving_. Only after the simulated network request has resolved can we assert that the data is appearing.
 
----
+The `mockEnvironment` from our earlier step provides us with a method for simulating a network request -- `resolveMostRecentOperation`.
 
-note: we left off here
+If we wanted to, we could hand-craft the entire response we'd expect from the server — but `relay-test-utils` also provides a better way to mock the response shape — `MockPayloadGenerator`.
 
-// TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
+💻 _Simulate a mock network request/response after our component renders_
 
-// MAYBE WE NEED THIS TEXT: At this point, the GraphQLError is no longer appearing, but we will get an error like `TypeError: Cannot read property 'artist' of null`. This last error, is because the `Artist3HeadingFragmentContainer` component expects an `artist` prop. Initially, `props` is null, so `props.artist` is not valid.
+```typescript
+describe("Artist3Heading", () => {
+  it("renders the values from the Relay query", () => {
+    import { createMockEnvironment, MockPayloadGenerator } from "relay-test-utils"
 
-#### Assert that the mocked artist is rendered properly
+    // ...
 
-- The call we made to `render()` returned a whole bunch of useful methods for inspecting and interacting with our rendered component
-  - link to them in docs
-  - one of them is `queryAllByText`
-- `queryAllByText("Andy Warhol")`
-- `expect(header).toHaveLength(1)`
+    const mockEnvironment = createMockEnvironment()
+
+    const root = render(...)
+
+    mockEnvironment.mock.resolveMostRecentOperation(operation =>
+      MockPayloadGenerator.generate(operation, {
+        Artist: () => ({
+          name: "Andy Warhol",
+          birthYear: 123,
+        }),
+      })
+    )
+```
+
+_./Artist3Heading.spec.tsx_
+
+Note that we access `resolveMostRecentOperation` on the `mock` property of our `mockEnvironment`. The call to `resolveMostRecentOperation` takes a function as an argument; that function should return the shape that we want to simulate as a server response.
+
+`MockPayloadGenerator.generate` takes the `operation` as an argument, and then an object that represents the shape we want to simulate. The name of the property on this shape (`Artist`) should match the name of the type in our `QueryRenderer`'s `query` (`artist`) — though the case should be PascalCase instead of camelCase.
+
+In this case, we're going to tell Relay that we want to simulate an artist with name `Andy Warhol` and birth year `123`. `MockPayloadGenerator` will fill in any fields we don't specify with sensible mock values — we could write this test without specifying anything at all! At Artsy we tend to specify at least the values we want to assert against, so that our tests are repeatable and the data is clear to the reader.
+
+When we run our tests, they should still pass!! But we're not done yet — our test is simulating a network response for our query, but our `QueryRenderer` is still not actually rendering our `Artist3HeadingFragmentContainer`! Let's fix that!
+
+#### Render the Artist3HeadingFragmentContainer
+
+In our initial test `QueryRenderer`, we rendered a static message. Now that we've got data flowing through Relay, let's fill in the `render` prop with something more realistic.
+
+```typescript
+    const root = render(
+      <QueryRenderer<Artist3HeadingTestQuery>
+        ...
+        render={({ props }) => {
+          if (!props || !props.artist) {
+            return <div>Loading</div>
+          }
+          return <Artist3HeadingFragmentContainer artist={props.artist} />
+        }}
+      />
+    )
+```
+
+_./Artist3Heading.spec.tsx_
+
+We start with some guarding against empty props — remember that Relay requests are happening asynchronously, and our `QueryRenderer` is going to render something even before the `artist` gets filled in from the mocked response.
+
+Finally, we render our `Artist3HeadingFragmentContainer` with the `artist` prop that we get from Relay.
+
+Save the file, and our test should still be green!
+
+We've got everything wired up now. Our final step will be to assert the presence of data in our rendered component!
+
+#### Assert that the component is rendering the mocked artist
+
+The call we made to `render()` returned a whole bunch of useful testing-library methods for inspecting and interacting with our rendered component. We initially stored them in a variable named `root`. We can access them on `root`, or destructure the specific methods we want.
+
+We're going to use the `queryAllByText` method to find specific text in the rendered component — the artist's name. Then we'll assert that the text exists exactly once in the output.
+
+Be sure to make this query after the most recent Relay operation has been resolved, to be sure that the component is hydrated with data.
+
+```typescript
+it("renders the values from the Relay query", () => {
+    const mockEnvironment = createMockEnvironment()
+
+    const root = render(...)
+
+    mockEnvironment.mock.resolveMostRecentOperation(...)
+
+    const header = root.queryAllByText("Andy Warhol")
+    expect(header).toHaveLength(1)
+  })
+```
+
+_./Artist3Heading.spec.tsx_
+
+Save this, and our test should be green! And it's testing something useful! 🎉 🎉 🎉
+
+There are many ways to inspect a rendered component with testing-library -- see [the docs](https://testing-library.com/docs/queries/about/) for a comprehensive discussion of them.
+
+...left off here....
 
 ### Celebrate!!!
 
@@ -217,123 +292,8 @@ note: we left off here
   - the environment issue that George ran into
 - how is relay mocking data? probably some docs in the relay testing tools we can link to.
 
+// TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
+
 [jest]: TODO
 [relay-test-utils]: TODO
 [react-testing-library]: https://testing-library.com/docs/react-testing-library/intro
-
----
-
-!!!! These are old but possibly useful docs from when I still thought it was a good idea to teach them a way of writing tests that we don't really do. I'm only leaving them here right now in case I want to borrow some of the words.
-
-### Test Artist3Heading in isolation
-
-We'll start with a test of our component in isolation from Relay. We don't do this often at Artsy, but occasionally we just want to verify some logic in a component, and we don't really care how Relay plays a part.
-
-The test we'll write will do this:
-
-1. Define some props
-2. Render the `Artist3Heading` component with those props
-3. Assert that the artist name appears in the rendered component
-
-Let's start by rendering the component in the test — since we're using TypeScript, this will give us some guidance on which props we need to pass into it.
-
-💻 _Import the dependencies we'll need to render the Artist3Heading in our test_
-
-```typescript
-import { render } from "@testing-library/react"
-import { Artist3Heading } from "./Artist3Heading"
-```
-
-_./Artist3Heading.spec.tsx_
-
-The [`render` method from React Testing Library](https://testing-library.com/docs/react-testing-library/api#render) renders a React component into a testable DOM.
-
-The Artist3Heading is the component we're going to render 😀.
-
-💻 _Update the "renders the values from the Relay query" test to render our `Artist3Heading` component:_
-
-```typescript
-// ...
-
-describe("as an isolated component", () => {
-  it("renders the values from the Relay query", () => {
-    render(<Artist3Heading />)
-  })
-})
-
-// ...
-```
-
-_./Artist3Heading.spec.tsx_
-
-If you save the test file, you'll see a failing test in your console; but even before that, you might have noticed type errors from TypeScript on the `Artist3Heading` element being rendered:
-
-```
-Property 'artist' is missing in type '{}' but required in type 'Artist3HeadingProps'.ts(2741)
-```
-
-We can use this type error to guide us in building up the appropriate test props. In this case, it's telling us that we need to pass in an artist. Let's pass an empty object to get a little further.
-
-💻 _Update the "renders the values from the Relay query" test to pass an empty artist to the `Artist3Heading` component:_
-
-```typescript
-describe("as an isolated component", () => {
-  it("renders the values from the Relay query", () => {
-    const artist = {}
-
-    render(<Artist3Heading artist={artist} />)
-  })
-})
-```
-
-_./Artist3Heading.spec.tsx_
-
-Again, you'll see a type error. This time it's on the `artist` prop of the declared `Artist3Heading` element, and it says:
-
-```
-Type '{}' is missing the following properties from type 'Artist3Heading_artist': name, birthYear, " $refType"
-```
-
-We're getting there! It looks like we need to add a few properties to our test `artist` object: the `name`, `birthYear`, ....and what's a `" $refType"`????
-
-Recall that the `relay-compiler-language-typescript' plugin is generating TypeScript types for our Relay queries. One of the artifacts of this type generation is a property named `" $refType"` on any fragments in our Relay tree. Its value always identifies the fragment it's associated with.
-
-We can see the `" $refType"` for this type in `./__generated__/Artist3Heading_artist.graphql.ts#L10`:
-
-```typescript
-export type Artist3Heading_artist = {
-  // ...
-  readonly " $refType": "Artist3Heading_artist"
-}
-```
-
-_`./__generated__/Artist3Heading_artist.graphql.ts`_
-
-This tells us what value we'll use for this property in our test artist: `"Artist3Heading_artist"`. (TODO: this is a lie! is there a way to use this value instead of null?)
-
-Let's fill in the properties of our test artist so that our component renders properly.
-
-💻 _Update the "renders the values from the Relay query" test to pass a complete `artist` object:_
-
-```typescript
-describe("as an isolated component", () => {
-  it("renders the values from the Relay query", () => {
-    const artist = {
-      name: "Andy Warhol",
-      birthYear: 1928,
-      " $refType": null,
-    }
-
-    render(<Artist3Heading artist={artist} />)
-  })
-})
-```
-
-_./Artist3Heading.spec.tsx_
-
-You should see no remaining type errors! 🎉 And a passing test! 🎉
-
-...blah blah blah but we aren't actually asserting anything, so let's do that next....
-
-- guide them to write the silly test (test #1)
-- guidance: tell them when to use this kind of test, link them to some force examples, etc

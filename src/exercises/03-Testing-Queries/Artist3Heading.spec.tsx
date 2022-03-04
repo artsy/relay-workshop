@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql, QueryRenderer } from "react-relay"
-import { createMockEnvironment } from "relay-test-utils"
+import { createMockEnvironment, MockPayloadGenerator } from "relay-test-utils"
 import { render } from "@testing-library/react"
 import { Artist3HeadingFragmentContainer } from "./Artist3Heading"
 import { Artist3HeadingTestQuery } from "./__generated__/Artist3HeadingTestQuery.graphql"
@@ -21,14 +21,25 @@ describe("Artist3Heading", () => {
         `}
         variables={{}}
         render={({ props }) => {
-          //   if (!props || !props.artist) {
-          //     return <div>Loading</div>
-          //   }
-          //   return <Artist3HeadingFragmentContainer artist={props.artist} />
-          return <div>fun</div>
+          if (!props || !props.artist) {
+            return <div>Loading</div>
+          }
+          return <Artist3HeadingFragmentContainer artist={props.artist} />
         }}
       />
     )
+
+    mockEnvironment.mock.resolveMostRecentOperation(operation =>
+      MockPayloadGenerator.generate(operation, {
+        Artist: () => ({
+          name: "Andy Warhol",
+          birthYear: 123,
+        }),
+      })
+    )
+
+    const header = root.queryAllByText("Andy Warhol")
+    expect(header).toHaveLength(1)
   })
 })
 

@@ -14,7 +14,7 @@
 //   it("renders the values from the Relay query", () => {
 //     const mockEnvironment = createMockEnvironment()
 
-//     const { queryAllByText } = render(
+//     const root = render(
 //       <QueryRenderer<Artist3HeadingTestQuery>
 //         environment={mockEnvironment}
 //         query={graphql`
@@ -43,7 +43,7 @@
 //       })
 //     )
 
-//     const header = queryAllByText("Andy Warhol")
+//     const header = root.queryAllByText("Andy Warhol")
 //     expect(header).toHaveLength(1)
 //   })
 // })
