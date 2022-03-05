@@ -270,22 +270,33 @@ There are many ways to inspect a rendered component with testing-library -- see 
 
 ### Celebrate!!!
 
+Congrats on writing a test against a Relay fragment!!! 🕺🎉
+
 ## Wrapping up
 
-- summarize what we did in this exercise
+In this exercise we wrote a test of a Relay Fragment Container. The test mocks the Relay environment so that we can simulate a network request, renders a test Query Renderer that emits the Fragment Container, resolves a network request to hydrate the component with data, and asserts that the mocked data appears.
 
 ## Guidance
 
-- most of the paperwork/setup/infrastructure is usually abstracted so that the tests can focus on what makes them unique
+### We usually test FragmentContainers
+
+Most of our tests at Artsy are around Fragment Containers, with a test Query Renderer defined in the test file. We do occasionally test Query Renderers themselves — they don't look much different than tests of Fragment Containers. [Example](https://github.com/artsy/eigen/blob/8508ea17275d55ecbec51c17f16b922acd4de6d2/src/lib/Scenes/Articles/__tests__/Articles-tests.tsx#L22)
+
+### We usually abstract the paperwork
+
+In this exercise, we manually mocked the Relay environment, rendered the test Query Renderer, and resolved the network request using Relay's testing tools. In many cases, we abstract this kind of repetitive work, so that the test can focus on what's unique to the component being tested.
+
+[Here's an example in Eigen of an abstraction around mocking responses](https://github.com/artsy/eigen/blob/8508ea17275d55ecbec51c17f16b922acd4de6d2/src/lib/Scenes/Sale/__tests__/SaleArtworksRail-tests.tsx#L44).
 
 ## Common mistakes
 
-- naming queries
-- different components in the tree using different relay environments (some of them the mock, some the default/real one)
-  - results in unpredictable/unreliable tests
-  - fix can be mocking `defaultEnvironment`
+### Naming queries incorrectly
+
+As we've seen in previous exercises also, Relay is very particular about naming. In this exercise we took care to name our test query according to Relay's specifications — beginning with the module name, and ending with `Query`.
 
 ## Resources
+
+TODO: fill in resources
 
 - link to relay docs
 - link to force & eigen tests/PRs
