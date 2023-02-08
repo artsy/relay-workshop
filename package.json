@@ -46,7 +46,7 @@
     "jest": "^27.0.4",
     "lint-staged": "^11.0.0",
     "miragejs": "^0.1.41",
-    "next": "^11.0.1",
+    "next": "^12.1.0",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.3.0",
     "relay-compiler": "^10.1.2",
