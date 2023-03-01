@@ -85,7 +85,7 @@ The [Relay environment](https://relay.dev/docs/glossary/#environment) is an obje
 
 In production code, the Relay environment communicates with a live GraphQL server. If we tried to write tests using this live connection, they'd be unpredictable and flaky. The `createMockEnvironment` helper from `react-test-utils` allows us to mock out a Relay environment that doesn't actually communicate with a server — empowering us to write predictable tests.
 
-All tests written in a Relay app will use `createMockEnvironment`. Often we abstract this so that not every test has to instantiate the mock environment, but for the sake of our tests, we're going to do it inline. (TODO: link to force/eigen abstractions that mask it)
+All tests written in a Relay app will use `createMockEnvironment`. [Often we abstract this so that not every test has to instantiate the mock environment](https://github.com/artsy/eigen/blob/8508ea17275d55ecbec51c17f16b922acd4de6d2/src/setupJest.ts), but for the sake of our tests, we're going to do it inline.
 
 💻 _Import the dependencies we'll need to mock the Relay environment in our test_
 
@@ -286,6 +286,10 @@ Most of our tests at Artsy are around Fragment Containers, with a test Query Ren
 
 In this exercise, we manually mocked the Relay environment, rendered the test Query Renderer, and resolved the network request using Relay's testing tools. In many cases, we abstract this kind of repetitive work, so that the test can focus on what's unique to the component being tested.
 
+[TODO: example of mocking environment in an abstraction](https://github.com/artsy/eigen/blob/8508ea17275d55ecbec51c17f16b922acd4de6d2/src/setupJest.ts)
+
+[TODO: example of mocking environment beforeEach](https://github.com/artsy/eigen/blob/8508ea17275d55ecbec51c17f16b922acd4de6d2/src/lib/Scenes/Sale/__tests__/SaleArtworksRail-tests.tsx#L37)
+
 [Here's an example in Eigen of an abstraction around mocking responses](https://github.com/artsy/eigen/blob/8508ea17275d55ecbec51c17f16b922acd4de6d2/src/lib/Scenes/Sale/__tests__/SaleArtworksRail-tests.tsx#L44).
 
 ## Common mistakes
@@ -298,12 +302,14 @@ As we've seen in previous exercises also, Relay is very particular about naming.
 
 TODO: fill in resources
 
+- [eigen examples](https://github.com/artsy/eigen/blob/main/EXAMPLES.md)
+
 - link to relay docs
 - link to force & eigen tests/PRs
   - the environment issue that George ran into
 - how is relay mocking data? probably some docs in the relay testing tools we can link to.
 
-// TODO: make sure `yarn relay` runs before `yarn test` and together with `yarn test --watch`
+// TODO: tell them to run relay-watch and test-watch in simultaneous consoles
 
 [jest]: TODO
 [relay-test-utils]: TODO

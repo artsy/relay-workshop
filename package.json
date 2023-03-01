@@ -18,10 +18,11 @@
     "prepare": "husky install",
     "prettier-write": "yarn run prettier --write",
     "relay": "relay-compiler --src ./src --schema src/graphql/schema/fakeArtsy.graphql  --extensions ts tsx --language typescript",
+    "relay:watch": "yarn relay --watch",
     "start-exercise-0": "yarn start-web",
     "start-exercises": "concurrently -n relay,web \"yarn relay --watch\" \"yarn start-web\"",
     "start-web": "parcel src/index.html",
-    "test": "jest",
+    "test": "yarn relay; jest",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit"
   },
